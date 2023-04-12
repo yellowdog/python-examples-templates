@@ -1,0 +1,50 @@
+[common.variables]  ############################################################
+
+    instances = 1
+    max_instances = 5
+    timeout = 3  # Node idle timeout in minutes
+    worker_tag = "{{tag}}-worker"
+
+[common]  ######################################################################
+
+    # Application Key and Secret
+    key = "<INSERT_APP_KEY_HERE>"  # <- ****************************************
+    secret = "<INSERT_APP_SECRET_HERE>"  # <- **********************************
+
+    namespace = "pyexamples-{{username}}"
+    tag = "pyex-bash-{{username}}"
+
+[workerPool]  ##################################################################
+
+    templateId = "<INSERT_COMPUTE_TEMPLATE_ID_HERE>"  # <- *********************
+    userDataFile = "instance_userdata.sh"
+
+    workerTag = "{{worker_tag}}"
+    workersPerNode = 1
+
+    minNodes = 0
+    targetInstanceCount = "{{num:instances}}"
+    maxNodes = "{{num:max_instances}}"
+    nodeIdleTimeLimit = "{{num:timeout}}"
+
+    autoShutdown = true
+    autoShutdownDelay = "{{num:timeout}}"
+
+[workRequirement]  #############################################################
+
+    taskType = "bash"
+    workerTags = ["{{worker_tag}}"]
+
+    # The Bash script that the Task will run
+    executable = "bash_script.sh"
+
+    # Examples of arguments, environment variables and Task Data that could be
+    # supplied to the Task
+    arguments = [1, 2, 3]
+    environment = {TEST_ENV_1 = "100", TEST_ENV_2 = "200"}
+    taskDataFile = "test_taskdata.txt"
+
+    taskCount = 1
+    maximumTaskRetries = 3
+
+# End ##########################################################################

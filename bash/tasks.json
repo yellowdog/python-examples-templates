@@ -1,0 +1,20 @@
+{
+  "taskGroups": [
+    {
+      "tasks": [
+        {
+          "arguments": ["1", "A"],
+          "environment": {"E_1": "ONE"}
+        },
+        {
+          "arguments": ["2", "B"],
+          "environment": {"E_2": "TWO"}
+        },
+        {
+          "arguments": ["3", "C"],
+          "environment": {"E_3": "THREE"}
+        }
+      ]
+    }
+  ]
+}
