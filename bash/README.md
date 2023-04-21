@@ -12,13 +12,13 @@ All `yd-` commands described below should be run from within this (`bash`) direc
 
 ## Configuration
 
-The [`config.toml`](config.toml) file in this directory contains the required configuration data to run the commands below.
+The [`config-template.toml`](config-template.toml) file in this directory contains a template for the required configuration data to run the commands below.
 
-You need to edit the following three properties in the `config.toml` file:
+First, copy **`config-template.toml`** to a new file **`config.toml`** in the same directory. Teh, edit the following three properties in the `config.toml` file:
 
 1. **`key`**: Insert the Key of the YellowDog Application you wish to use
 2. **`secret`**: Insert the Secret of the YellowDog Application you wish to use
-3. **`templateId`**: The ID of the Compute Template to use for provisioning Worker Pools. (The ID has the form `ydid:crt:D9C548:fa40a830-dff3-44e1-a330-8331a4a68d4a` and can be obtained from the YellowDog Portal.)
+3. **`templateId`**: The ID of the Compute Template to use for provisioning Worker Pools. (The ID has a form like `ydid:crt:D9C548:fa40a830-dff3-44e1-a330-8331a4a68d4a` and can be obtained from the Compute Template's page in the YellowDog Portal.)
 
 All other properties can be left at their default values.
 

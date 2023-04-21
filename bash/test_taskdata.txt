@@ -1,2 +1,2 @@
-Example data to be provided to a Task in the file 'taskdata.txt' when the Task
+Data to be provided to a Task in the file 'taskdata.txt' when the Task
 executes.
