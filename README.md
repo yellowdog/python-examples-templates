@@ -30,7 +30,7 @@ Note that Keyrings are not automatically shared with other users in your YellowD
  
 Create a **Source** using the Source Templates tab. You’ll need various bits of cloud provider information.
 
-**Networking requirements**: In order for the YellowDog Agent to connect back to the YellowDog Platform, instances must have the ability to make **outbound HTTPS connections**. This is usually handled automatically if the public IP address option is selected, otherwise it may be necessary to ensure that the selected network has a suitable gateway configured. No inbound connections are required.
+**Networking requirements**: For the YellowDog Agent to connect back to the YellowDog Platform, instances must have the ability to make **outbound HTTPS connections**. This is usually handled automatically if the public IP address option is selected, otherwise it may be necessary to ensure that the selected network has a suitable gateway configured. No inbound connections are required.
  
 Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to be populated at the Compute Template level.
  
@@ -41,7 +41,9 @@ Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to 
  
 Create a **Compute Template** using the Compute Templates tab.
  
-Create a simple **Static Template** including the Source you created above. Specify the required Instance Type in the Source panel and choose a ‘yd-agent-docker’ YellowDog image from the Images ID drop-down.
+Create a simple **Static Template** including the Source you created above. Specify the required Instance Type in the Source panel and choose a **‘yd-agent-docker’** YellowDog image from the Images ID drop-down.
+
+Currently, the images in the `yd-*` image families have to be shared with your selected cloud provider account(s) by YellowDog before they can be used in instance provisioning. Please contact YellowDog Support to arrange this.
   
 ### Step 4: Test-Provision a Worker Pool
  
