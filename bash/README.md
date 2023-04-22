@@ -48,10 +48,22 @@ To use your own Bash script instead of the default `bash_script.sh`, you can spe
 yd-submit -X my_bash_script.sh
 ```
 
+### Multiple Tasks with Different Arguments
+
 To experiment with submitting multiple Tasks with different arguments and environment variables, you can use the minimal, three-Task JSON Work Requirement specification at [`tasks.json`](tasks.json):
 
 ```shell
 yd-submit --work-requirement tasks.json
+```
+
+### Multiple Tasks with Different Arguments using CSV Files
+
+CSV files can be used to generate Task lists. You can try this out with the supplied example JSON Work Requirement and its accompanying CSV file.
+
+The following will illustrate the results of Task list expansion, without actually submitting anything to the Platform:
+
+```shell
+yd-submit --work-requirement tasks-csv.json --csv-file tasks-csv.csv -pq
 ```
 
 ## Downloading Results

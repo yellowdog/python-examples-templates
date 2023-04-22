@@ -1,0 +1,12 @@
+{
+  "taskGroups": [
+    {
+      "tasks": [
+        {
+          "arguments": ["{{arg_1}}", "{{arg_2}}"],
+          "environment": {"ENV_VAR": "{{env_1}}"}
+        }
+      ]
+    }
+  ]
+}
