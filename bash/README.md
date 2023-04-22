@@ -4,7 +4,7 @@ This directory contains simple, skeleton components for submitting and running T
 
 ## Prerequisites
 
-Please ensure you've [installed the YellowDog Python Examples scripts](https://github.com/yellowdog/python-examples#script-installation-with-pip).
+Please ensure you've [installed the YellowDog Python Examples scripts](https://github.com/yellowdog/python-examples#script-installation-with-pip) and that you've set up your YellowDog account. At a minimum, you'll need an Application Key and Secret, and a Compute Template ID.
 
 ## Usage
 
@@ -14,7 +14,7 @@ All `yd-` commands described below should be run from within this (`bash`) direc
 
 The [`config-template.toml`](config-template.toml) file in this directory contains a template for the required configuration data to run the commands below.
 
-First, copy **`config-template.toml`** to a new file **`config.toml`** in the same directory. Teh, edit the following three properties in the `config.toml` file:
+First, copy **`config-template.toml`** to a new file **`config.toml`** in the same directory. Then, edit the following three properties in the `config.toml` file:
 
 1. **`key`**: Insert the Key of the YellowDog Application you wish to use
 2. **`secret`**: Insert the Secret of the YellowDog Application you wish to use
@@ -45,7 +45,7 @@ When a Task is complete its console output can be inspected in the Object Store 
 To use your own Bash script instead of the default `bash_script.sh`, you can specify your script on the command line as follows:
 
 ```shell
-yd-submit -X <my_bash_script.sh>
+yd-submit -X my_bash_script.sh
 ```
 
 To experiment with submitting multiple Tasks with different arguments and environment variables, you can use the minimal, three-Task JSON Work Requirement specification at [`tasks.json`](tasks.json):
