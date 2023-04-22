@@ -2,7 +2,7 @@
 
 Example template solutions for use with the [Python Examples](https://github.com/yellowdog/python-examples) command line scripts.
 
-## Repository Contents
+## Solution Templates
 
 - [Bash Script Template](bash/README.md)
 
@@ -20,6 +20,8 @@ Once you’ve completed the steps below, you’ll be ready to provision instance
 - Portal: https://portal.yellowdog.co/#/keyrings
  
 Create a **Keyring** using the Keyrings tab. Make a note of the Keyring password (it won’t be shown again).
+
+Within the Keyring, add one or more cloud provider **Credentials** for the cloud accounts you want YellowDog to use for VM provisioning.
  
 Note that Keyrings are not automatically shared with other users in your YellowDog account. Users must explicitly claim access to each Keyring using the Keyring name and the Keyring password.
  
