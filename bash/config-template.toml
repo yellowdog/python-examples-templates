@@ -17,7 +17,7 @@
 [workerPool]  ##################################################################
 
     templateId = "<INSERT_COMPUTE_TEMPLATE_ID_HERE>"  # <- *********************
-    userDataFile = "instance_userdata.sh"
+    userDataFile = "userdata.sh"
 
     workerTag = "{{worker_tag}}"
     workersPerNode = 1
@@ -42,7 +42,7 @@
     # supplied to the Task
     arguments = [1, 2, 3]
     environment = {TEST_ENV_1 = "100", TEST_ENV_2 = "200"}
-    taskDataFile = "test_taskdata.txt"
+    taskDataFile = "taskdata.txt"
 
     taskCount = 1
     maximumTaskRetries = 3
