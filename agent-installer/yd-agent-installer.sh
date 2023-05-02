@@ -155,7 +155,6 @@ yd_log "Agent configuration file created"
 yd_log "Creating Agent startup script (start.sh)"
 cat > $YD_AGENT_HOME/start.sh <<- EOM
 #!/bin/sh
-. ~/.bashrc
 /usr/bin/java -jar $YD_AGENT_HOME/agent.jar
 EOM
 
