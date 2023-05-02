@@ -55,12 +55,24 @@ yd_log () {
 
 yd_log "Starting YellowDog Agent Setup"
 
-# Determine OS distribution
-yd_log "Checking Linux distribution"
+################################################################################
+
+yd_log "Checking for already created user"
+if id -u "$YD_AGENT_USER" >/dev/null 2>&1
+then
+  yd_log "User $YD_AGENT_USER already exists ... aborting script"
+  exit 1
+fi
+
+################################################################################
+
+yd_log "Checking Linux distribution using 'ID' from '/etc/os-release'"
 DISTRO=$(grep ^ID= /etc/os-release | sed -e 's/ID=//' | sed -e 's/"//g')
 yd_log "Distro ID discovered as: $DISTRO"
 
-yd_log "Distro-specific: creating user $YD_AGENT_USER and installing Java 17"
+yd_log "Distro-specific steps: creating user $YD_AGENT_USER \
+and installing Java 17"
+
 mkdir -p $YD_AGENT_ROOT
 
 # All distro-specific operations are encapsulated below
