@@ -2,7 +2,7 @@
 
 # YellowDog Agent installer script. This script will:
 #   1. Create a user 'yd-agent' and its supporting directories
-#   2. Install Java 17 (this step can be suppressed)
+#   2. Install Java 11 (this step can be suppressed)
 #   3. Download and configure the YellowDog Agent JAR file
 #   4. Set up yd-agent as a systemd service
 
@@ -22,7 +22,7 @@ NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
 # Set the following to anything other than "TRUE" to suppress
 # Java installation. The Agent start script will expect to find
 # the Java runtime at: /usr/bin/java.
-INSTALL_JAVA_17="TRUE"
+INSTALL_JAVA_11="TRUE"
 
 ################################################################################
 
@@ -71,7 +71,7 @@ DISTRO=$(grep ^ID= /etc/os-release | sed -e 's/ID=//' | sed -e 's/"//g')
 yd_log "Distro ID discovered as: $DISTRO"
 
 yd_log "Distro-specific steps: creating user $YD_AGENT_USER \
-and installing Java 17"
+and installing Java 11"
 
 mkdir -p $YD_AGENT_ROOT
 
@@ -80,20 +80,20 @@ case $DISTRO in
   "ubuntu" | "debian")
     adduser $YD_AGENT_USER --home $YD_AGENT_HOME --disabled-password \
       --quiet --gecos ""
-    if [ $INSTALL_JAVA_17 == "TRUE" ]; then
-      apt update && apt -y install openjdk-17-jre > /dev/null
+    if [ $INSTALL_JAVA_11 == "TRUE" ]; then
+      apt update && apt -y install openjdk-11-jre > /dev/null
     fi
     ;;
   "almalinux" | "centos" | "rhel")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
-    if [ $INSTALL_JAVA_17 == "TRUE" ]; then
-      yum install -y java-17-openjdk
+    if [ $INSTALL_JAVA_11 == "TRUE" ]; then
+      yum install -y java-11-openjdk
     fi
     ;;
   "amzn")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
-    if [ $INSTALL_JAVA_17 == "TRUE" ]; then
-      yum install -y java-17
+    if [ $INSTALL_JAVA_11 == "TRUE" ]; then
+      yum install -y java-11
     fi
     ;;
   *)

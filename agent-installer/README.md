@@ -16,7 +16,7 @@ NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
 The script performs the following steps:
 
 1. Creates a new user `yd-agent` with home directory `/opt/yellowdog/agent`, and a data directory (for use during Task execution) at `/var/opt/yellowdog/agent`.
-2. Installs Java 17 using the Linux distro's package manager.
+2. Installs Java 11 using the Linux distro's package manager.
 3. Downloads the YellowDog Agent JAR file to the `yd-agent` home directory.
 4. Creates the Agent's configuration file (`application.yaml`) and its startup script.
 5. Configures the Agent as a `systemd` service.
@@ -25,7 +25,7 @@ The script is designed to work with a number of Linux distribution types; please
 
 The script may need to be adapted for your specific circumstances and choice of Linux distro.
 
-Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `INSTALL_JAVA_17` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find the Java runtime at `/usr/bin/java`.
+Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `INSTALL_JAVA_11` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find the Java runtime at `/usr/bin/java`.
 
 ## Modes of Use
 
