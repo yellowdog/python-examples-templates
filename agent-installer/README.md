@@ -1,6 +1,6 @@
 # YellowDog Agent Installer Script
 
-The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to install and configure the YellowDog Agent and its dependencies on Linux instances.
+The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to install and configure the YellowDog Agent and its dependencies on Linux instances using a number of different Linux distros.
 
 Before use, the variables below must be populated in the script, to allow download of the YellowDog Agent. Please contact YellowDog for the required credentials.
 
@@ -16,16 +16,16 @@ NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
 The script performs the following steps:
 
 1. Creates a new user `yd-agent` with home directory `/opt/yellowdog/agent`, and a data directory (for use during Task execution) at `/var/opt/yellowdog/agent`.
-2. Installs Java 17 using the distro's package manager.
+2. Installs Java 17 using the Linux distro's package manager.
 3. Downloads the YellowDog Agent JAR file to the `yd-agent` home directory.
 4. Creates the Agent's configuration file (`application.yaml`) and its startup script.
 5. Configures the Agent as a `systemd` service.
 
 The script is designed to work with a number of Linux distribution types; please inspect the script for details.
 
-Obviously, the script may need to be adapted for specific circumstances and distro variations.
+The script may need to be adapted for your specific circumstances and choice of Linux distro.
 
-Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the emvironment variable `INSTALL_JAVA_17` to anything other than `"TRUE"`. Note that the Agent startup script expects to find the Java runtime at `/usr/bin/java`.
+Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `INSTALL_JAVA_17` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find the Java runtime at `/usr/bin/java`.
 
 ## Modes of Use
 
