@@ -25,7 +25,7 @@ The script is designed to work with a number of Linux distribution types; please
 
 The script may need to be adapted for your specific circumstances and choice of Linux distro.
 
-Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `INSTALL_JAVA_11` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find the Java runtime at `/usr/bin/java`.
+Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `INSTALL_JAVA` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find the Java runtime at `/usr/bin/java`.
 
 ## Modes of Use
 

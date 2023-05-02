@@ -22,7 +22,7 @@ NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
 # Set the following to anything other than "TRUE" to suppress
 # Java installation. The Agent start script will expect to find
 # the Java runtime at: /usr/bin/java.
-INSTALL_JAVA_11="TRUE"
+INSTALL_JAVA="TRUE"
 
 ################################################################################
 
@@ -32,8 +32,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-# Fail immediately on error
-set -euo pipefail
+set -u -o pipefail
 
 ################################################################################
 
@@ -80,20 +79,21 @@ case $DISTRO in
   "ubuntu" | "debian")
     adduser $YD_AGENT_USER --home $YD_AGENT_HOME --disabled-password \
       --quiet --gecos ""
-    if [ $INSTALL_JAVA_11 == "TRUE" ]; then
-      apt-get update -qq && apt-get -yqq install openjdk-11-jre
+    if [ $INSTALL_JAVA == "TRUE" ]; then
+      apt-get update > /dev/null && \
+      apt-get -y install openjdk-11-jre > /dev/null
     fi
     ;;
   "almalinux" | "centos" | "rhel")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
-    if [ $INSTALL_JAVA_11 == "TRUE" ]; then
-      yum install -yq java-11-openjdk
+    if [ $INSTALL_JAVA == "TRUE" ]; then
+      yum install -y java-11-openjdk > /dev/null
     fi
     ;;
   "amzn")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
-    if [ $INSTALL_JAVA_11 == "TRUE" ]; then
-      yum install -yq java-11
+    if [ $INSTALL_JAVA == "TRUE" ]; then
+      yum install -y java-11 > /dev/null
     fi
     ;;
   *)
@@ -119,23 +119,23 @@ EOF
 
 yd_log "Starting Agent download"
 
-curl -Lsno "$YD_AGENT_HOME/agent.jar" "http://nexus.yellowdog.tech/service/\
+curl --fail \
+-Lsno "$YD_AGENT_HOME/agent.jar" "http://nexus.yellowdog.tech/service/\
 rest/v1/search/assets/download?sort=version&repository=$MAVEN_REPO&maven.\
 groupId=co.yellowdog.platform&maven.artifactId=agent&maven.extension=jar"
+CURL_EXIT="$?"
 
 yd_log "Removing Nexus credentials"
 rm -f /root/.netrc
 
-# The download can fail silently, so check downloaded file size:
-AGENT_FILE_SIZE=$(wc -c "$YD_AGENT_HOME/agent.jar" | awk '{print $1}')
-yd_log "Checking size of downloaded 'agent.jar' file: $AGENT_FILE_SIZE bytes"
-if (( AGENT_FILE_SIZE < 10,000,000 ))
+# Check for successful Agent download
+if [[ $CURL_EXIT -ne 0 ]]
 then
-  yd_log "Size of 'agent.jar' file is too small ... aborting script."
+  yd_log "Agent download failed ... aborting script"
   exit 1
+else
+  yd_log "Agent download complete"
 fi
-
-yd_log "Agent download complete"
 
 ################################################################################
 
