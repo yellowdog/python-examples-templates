@@ -39,7 +39,7 @@ The script can also be used to **install the YellowDog components dynamically** 
 
 ```toml
 [workerPool]
-    userDataFile = "yd-agent-installer.sh"
+userDataFile = "yd-agent-installer.sh"
 ```
 
 The user data file will be run (as root) when the instance boots, and will configure the instance to work with the YellowDog Scheduler as part of the boot process.

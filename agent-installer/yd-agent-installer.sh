@@ -4,7 +4,7 @@
 #   1. Create a user 'yd-agent' and its supporting directories
 #   2. Install Java 11 (this step can be suppressed)
 #   3. Download and configure the YellowDog Agent JAR file
-#   4. Set up yd-agent as a systemd service
+#   4. Set up the YellowDog Agent to run as a systemd service
 
 # Tested on:
 #   - Ubuntu 22.04
@@ -15,24 +15,31 @@
 #   - Red Hat Enterprise Linux 9.1
 
 # Set the Nexus username and password below.
-# These are required to download the YellowDog Agent.
+# These are required to download the YellowDog Agent JAR file.
 NEXUS_USERNAME="<INSERT YELLOWDOG NEXUS USERNAME HERE>"
 NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
 
 # Set the following to anything other than "TRUE" to suppress
-# Java installation. The Agent start script will expect to find
-# the Java runtime at: /usr/bin/java.
+# Java installation. The Agent startup script will expect to find
+# a Java (v11+) runtime at: /usr/bin/java.
 INSTALL_JAVA="TRUE"
 
 ################################################################################
 
-# Ensure we're running as root
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
-  exit
-fi
+set -euo pipefail
 
-set -u -o pipefail
+# Logging function
+yd_log () {
+  echo -e "*** YD" "$(date -u "+%Y-%m-%d_%H%M%S_UTC"):" "$@"
+}
+
+################################################################################
+
+# Ensure we're running as root
+if [[ "$EUID" -ne 0 ]]
+  then yd_log "Please run as root ... aborting"
+  exit 1
+fi
 
 ################################################################################
 
@@ -45,18 +52,11 @@ MAVEN_REPO="maven-public"
 
 ################################################################################
 
-# Logging function
-yd_log () {
-  echo -e "*** YD" "$(date -u "+%Y-%m-%d_%H%M%S_UTC"):" "$@"
-}
-
-################################################################################
-
 yd_log "Starting YellowDog Agent Setup"
 
 ################################################################################
 
-yd_log "Checking for already created user"
+yd_log "Checking for already created user: $YD_AGENT_USER"
 if id -u "$YD_AGENT_USER" >/dev/null 2>&1
 then
   yd_log "User $YD_AGENT_USER already exists ... aborting script"
@@ -79,20 +79,20 @@ case $DISTRO in
   "ubuntu" | "debian")
     adduser $YD_AGENT_USER --home $YD_AGENT_HOME --disabled-password \
       --quiet --gecos ""
-    if [ $INSTALL_JAVA == "TRUE" ]; then
+    if [[ $INSTALL_JAVA == "TRUE" ]]; then
       apt-get update > /dev/null && \
       apt-get -y install openjdk-11-jre > /dev/null
     fi
     ;;
   "almalinux" | "centos" | "rhel")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
-    if [ $INSTALL_JAVA == "TRUE" ]; then
+    if [[ $INSTALL_JAVA == "TRUE" ]]; then
       yum install -y java-11-openjdk > /dev/null
     fi
     ;;
   "amzn")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
-    if [ $INSTALL_JAVA == "TRUE" ]; then
+    if [[ $INSTALL_JAVA == "TRUE" ]]; then
       yum install -y java-11 > /dev/null
     fi
     ;;
@@ -110,32 +110,15 @@ chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME $YD_AGENT_DATA
 
 ################################################################################
 
-yd_log "Populating Nexus credentials"
-cat > /root/.netrc << EOF
-machine nexus.yellowdog.tech
-    login $NEXUS_USERNAME
-    password $NEXUS_PASSWORD
-EOF
-
 yd_log "Starting Agent download"
 
-curl --fail \
--Lsno "$YD_AGENT_HOME/agent.jar" "http://nexus.yellowdog.tech/service/\
+BASIC_AUTH=$(printf '%s:%s' "$NEXUS_USERNAME" "$NEXUS_PASSWORD" | base64)
+curl --fail -Ls "https://nexus.yellowdog.tech/service/\
 rest/v1/search/assets/download?sort=version&repository=$MAVEN_REPO&maven.\
-groupId=co.yellowdog.platform&maven.artifactId=agent&maven.extension=jar"
-CURL_EXIT="$?"
+groupId=co.yellowdog.platform&maven.artifactId=agent&maven.extension=jar" \
+-o "$YD_AGENT_HOME/agent.jar" -H "Authorization: Basic $BASIC_AUTH"
 
-yd_log "Removing Nexus credentials"
-rm -f /root/.netrc
-
-# Check for successful Agent download
-if [[ $CURL_EXIT -ne 0 ]]
-then
-  yd_log "Agent download failed ... aborting script"
-  exit 1
-else
-  yd_log "Agent download complete"
-fi
+yd_log "Agent download complete"
 
 ################################################################################
 
