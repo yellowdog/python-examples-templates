@@ -12,7 +12,7 @@
 #   - Amazon Linux 2
 #   - Debian 11
 #   - CentOS Stream 8 & 9
-#   - Red Hat Enterprise 9.1
+#   - Red Hat Enterprise Linux 9.1
 
 # Set the Nexus username and password below.
 # These are required to download the YellowDog Agent.
