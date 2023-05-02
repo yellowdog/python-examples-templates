@@ -87,13 +87,13 @@ case $DISTRO in
   "almalinux" | "centos" | "rhel")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
     if [ $INSTALL_JAVA_11 == "TRUE" ]; then
-      yum install -y java-11-openjdk
+      yum install -y java-11-openjdk > /dev/null
     fi
     ;;
   "amzn")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
     if [ $INSTALL_JAVA_11 == "TRUE" ]; then
-      yum install -y java-11
+      yum install -y java-11 > /dev/null
     fi
     ;;
   *)
