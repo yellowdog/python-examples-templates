@@ -123,6 +123,9 @@ curl -Lsno "$YD_AGENT_HOME/agent.jar" "http://nexus.yellowdog.tech/service/\
 rest/v1/search/assets/download?sort=version&repository=$MAVEN_REPO&maven.\
 groupId=co.yellowdog.platform&maven.artifactId=agent&maven.extension=jar"
 
+yd_log "Removing Nexus credentials"
+rm -f /root/.netrc
+
 # The download can fail silently, so check downloaded file size:
 AGENT_FILE_SIZE=$(wc -c "$YD_AGENT_HOME/agent.jar" | awk '{print $1}')
 yd_log "Checking size of downloaded 'agent.jar' file: $AGENT_FILE_SIZE bytes"
@@ -133,9 +136,6 @@ then
 fi
 
 yd_log "Agent download complete"
-
-yd_log "Removing Nexus credentials"
-rm -f /root/.netrc
 
 ################################################################################
 
