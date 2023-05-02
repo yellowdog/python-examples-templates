@@ -81,7 +81,7 @@ case $DISTRO in
     adduser $YD_AGENT_USER --home $YD_AGENT_HOME --disabled-password \
       --quiet --gecos ""
     if [ $INSTALL_JAVA_11 == "TRUE" ]; then
-      apt update && apt -y install openjdk-11-jre > /dev/null
+      apt-get update && apt-get -y install openjdk-11-jre > /dev/null
     fi
     ;;
   "almalinux" | "centos" | "rhel")
