@@ -1,6 +1,6 @@
 # YellowDog Python Examples Templates
 
-Example template solutions for use with the [Python Examples](https://github.com/yellowdog/python-examples) command line scripts.
+Example template solutions and other resources for use with the [Python Examples](https://github.com/yellowdog/python-examples) command line scripts.
 
 ## Solution Templates
 
@@ -70,3 +70,7 @@ Make a note of the Application Key and Secret (they won’t be shown again) and 
 ### Next Steps
 
 Once the steps above are completed, you'll be ready to experiment with the template solutions in this repository.
+
+## Installing the YellowDog Agent on Linux Instances
+
+The YellowDog Scheduler requires that instances must be running the YellowDog Agent in order to participate in Worker Pools. The [agent-installer](agent-installer) directory contains a generic installation script that can be used to create custom Linux images including the Agent, or which can be used to install the Agent dynamically when any Linux instance boots.
