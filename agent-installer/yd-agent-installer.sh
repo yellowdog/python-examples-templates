@@ -105,9 +105,11 @@ case $DISTRO in
     ADMIN_GRP="wheel"
     ;;
   "sles")
-    useradd $YD_AGENT_USER --home-dir $YD_AGENT_HOME --create-home
+    groupadd $YD_AGENT_USER
+    useradd $YD_AGENT_USER --home-dir $YD_AGENT_HOME --create-home \
+            -g $YD_AGENT_USER
     if [[ $INSTALL_JAVA == "TRUE" ]]; then
-      zypper install -y java-11 &> /dev/null
+      zypper install -y java-11-openjdk &> /dev/null
     fi
     ADMIN_GRP="wheel"
   ;;
