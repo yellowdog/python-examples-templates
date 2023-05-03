@@ -2,9 +2,12 @@
 
 # YellowDog Agent installer script. This script will:
 #   1. Create a user 'yd-agent' and its supporting directories
-#   2. Install Java 11 (this step can be suppressed)
+#   2. Install Java 11 (this step can be omitted)
 #   3. Download and configure the YellowDog Agent JAR file
-#   4. Set up the YellowDog Agent to run as a systemd service
+#   4. Create the Agent's configuration file and startup script
+#   5. Set up the YellowDog Agent to run as a systemd service
+#   6. Optionally add 'yd-agent' to passwordless sudoers
+#   7. Optionally add a public SSH key for 'yd-agent'
 
 # Tested on:
 #   - Ubuntu 22.04
@@ -80,21 +83,25 @@ case $DISTRO in
     adduser $YD_AGENT_USER --home $YD_AGENT_HOME --disabled-password \
       --quiet --gecos ""
     if [[ $INSTALL_JAVA == "TRUE" ]]; then
-      apt-get update > /dev/null && \
-      apt-get -y install openjdk-11-jre > /dev/null
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get update &> /dev/null && \
+      apt-get -y install openjdk-11-jre &> /dev/null
     fi
+    ADMIN_GRP="sudo"
     ;;
   "almalinux" | "centos" | "rhel")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
     if [[ $INSTALL_JAVA == "TRUE" ]]; then
-      yum install -y java-11-openjdk > /dev/null
+      yum install -y java-11-openjdk &> /dev/null
     fi
+    ADMIN_GRP="wheel"
     ;;
   "amzn")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
     if [[ $INSTALL_JAVA == "TRUE" ]]; then
-      yum install -y java-11 > /dev/null
+      yum install -y java-11 &> /dev/null
     fi
+    ADMIN_GRP="wheel"
     ;;
   *)
     yd_log "Unknown distribution ... exiting"
@@ -181,6 +188,39 @@ yd_log "Enabling Agent service (yd-agent)"
 systemctl enable yd-agent && systemctl start --no-block yd-agent
 
 yd_log "Agent service enabled and started"
+
+################################################################################
+
+# Uncomment the following to give $YD_AGENT_USER passwordless sudo capability
+
+#yd_log "Adding $YD_AGENT_USER to passwordless sudoers"
+#usermod -aG $ADMIN_GRP $YD_AGENT_USER
+#echo -e "$YD_AGENT_USER\tALL=(ALL)\tNOPASSWD: ALL" > \
+#        /etc/sudoers.d/020-$YD_AGENT_USER
+
+################################################################################
+
+# Uncomment the following to add a public key for $YD_AGENT_USER
+
+#yd_log "Adding SSH public key for user $YD_AGENT_USER"
+#
+#mkdir -p $YD_AGENT_HOME/.ssh
+#chmod og-rwx $YD_AGENT_HOME/.ssh
+#
+## Insert your public key below, between the two 'EOM' entries
+#cat >> $YD_AGENT_HOME/.ssh/authorized_keys << EOM
+#ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBAwA8lQurxJh2m9zyB6A/QG7/0jRYQQgH0zJg\
+#Tr8+uGdYJs4hpbsU43jqfdiOY9gBN35j2LFfHHsYxJmFkFXh2DQn3+WZhzxYzPOiSIBtNnHmRY3j\
+#71wJbNUX1kF4VyifiaiuPviJd0YKD/y0UnhZKBs4EQQB9qPzpcSoixcLa6hgh5gqY8yA+BuI4dgK\
+#5SG2t5seujJ45bT67HvCeFYShFXPsvB9KwhptBF1Hd961+AoXO8IVXSEKBnrTTecbeFgc0V2vRqO\
+#TNdSiWrD71mij3NUd3dzp+9qepDZaNtNXMJ8jnF2nzk43JvrRzteWJlyya+63/bvdq/jj7jLH3tN\
+#pcyNw16YmctpjKr7uKc4k6gEa3b7YaELwX8g1xGQib95RXuzvef7qduDAbQbvadbvM97iohaeWMM\
+#7uh1rNM6qsVdyGd1FUVNFiPUqsQ5sQhRdnryu/lF10hDArGkhu+tmwQEFsp2ymFlaVexKWB/Q20q\
+#A0bE4yNXbZF4WUdBJzc= pwt@pwt-mbp-14.local
+#EOM
+#
+#chmod og-rw $YD_AGENT_HOME/.ssh/authorized_keys
+#chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME/.ssh
 
 ################################################################################
 
