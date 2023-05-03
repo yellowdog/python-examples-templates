@@ -1,6 +1,6 @@
 # YellowDog Python Examples Templates
 
-Example template solutions and other resources for use with the [Python Examples](https://github.com/yellowdog/python-examples) command line scripts.
+This repository contains example template solutions and other resources for use with the [Python Examples](https://github.com/yellowdog/python-examples) command line scripts.
 
 ## Solution Templates
 
@@ -10,7 +10,7 @@ Example template solutions and other resources for use with the [Python Examples
 
 The basic Workflow for getting started with YellowDog is described at https://docs.yellowdog.co/#/the-platform/workflow.
  
-Summarised below are the minimal steps necessary to prepare for provisioning YellowDog Worker Pools(collections of VM instances running the YellowDog Agent). The steps are performed using your account in the YellowDog Portal: https://portal.yellowdog.co/ (so a YellowDog Platform account is required), and you’ll need various pieces of cloud provider information including credentials and network details.
+Summarised below are the minimal steps necessary to prepare for provisioning YellowDog Worker Pools (collections of VM instances running the YellowDog Agent). The steps are performed using your account in the YellowDog Portal: https://portal.yellowdog.co/ (so a YellowDog Platform account is required), and you’ll need various pieces of cloud provider information including credentials and network details.
  
 Once you’ve completed the steps below, you’ll be ready to provision instances and run workloads via YellowDog.
  
@@ -73,4 +73,4 @@ Once the steps above are completed, you'll be ready to experiment with the templ
 
 ## Installing the YellowDog Agent on Linux Instances
 
-The YellowDog Scheduler requires that instances must be running the YellowDog Agent in order to participate in Worker Pools. The [agent-installer](agent-installer) directory contains a generic installation script that can be used to create custom Linux images including the Agent, or which can be used to install the Agent dynamically when any Linux instance boots.
+The YellowDog Scheduler requires instances to run the YellowDog Agent in order to participate in Worker Pools. The [agent-installer](agent-installer) directory contains a generic installation script that can be used to create custom Linux images including the Agent, or which can be used to install the Agent dynamically when any Linux instance boots.
