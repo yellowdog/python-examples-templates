@@ -16,6 +16,7 @@
 #   - Debian 11
 #   - CentOS Stream 8 & 9
 #   - Red Hat Enterprise Linux 9.1
+#   - SUSE (SLES 15 SP4)
 
 # Uncomment and set the Nexus username and password below.
 # These are required to download the YellowDog Agent JAR file.
@@ -103,6 +104,13 @@ case $DISTRO in
     fi
     ADMIN_GRP="wheel"
     ;;
+  "sles")
+    useradd $YD_AGENT_USER --home-dir $YD_AGENT_HOME --create-home
+    if [[ $INSTALL_JAVA == "TRUE" ]]; then
+      zypper install -y java-11 &> /dev/null
+    fi
+    ADMIN_GRP="wheel"
+  ;;
   *)
     yd_log "Unknown distribution ... exiting"
     exit 1
