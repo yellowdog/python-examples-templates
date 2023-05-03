@@ -17,10 +17,10 @@
 #   - CentOS Stream 8 & 9
 #   - Red Hat Enterprise Linux 9.1
 
-# Set the Nexus username and password below.
+# Uncomment and set the Nexus username and password below.
 # These are required to download the YellowDog Agent JAR file.
-NEXUS_USERNAME="<INSERT YELLOWDOG NEXUS USERNAME HERE>"
-NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
+# NEXUS_USERNAME="<INSERT YELLOWDOG NEXUS USERNAME HERE>"
+# NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
 
 # Set the following to anything other than "TRUE" to suppress
 # Java installation. The Agent startup script will expect to find

@@ -5,10 +5,10 @@ The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to in
 Before use, the variables below must be populated in the script, to allow download of the YellowDog Agent. Please contact YellowDog for the required credentials.
 
 ```shell
-# Set the Nexus username and password below.
-# These are required to download the YellowDog Agent.
-NEXUS_USERNAME="<INSERT YELLOWDOG NEXUS USERNAME HERE>"
-NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
+# Uncomment and set the Nexus username and password below.
+# These are required to download the YellowDog Agent JAR file.
+# NEXUS_USERNAME="<INSERT YELLOWDOG NEXUS USERNAME HERE>"
+# NEXUS_PASSWORD="<INSERT YELLOWDOG NEXUS PASSWORD HERE>"
 ```
 
 ## Script Details
