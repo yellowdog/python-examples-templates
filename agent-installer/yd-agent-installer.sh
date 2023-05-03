@@ -82,7 +82,7 @@ mkdir -p $YD_AGENT_ROOT
 case $DISTRO in
   "ubuntu" | "debian")
     adduser $YD_AGENT_USER --home $YD_AGENT_HOME --disabled-password \
-      --quiet --gecos ""
+            --quiet --gecos ""
     if [[ $INSTALL_JAVA == "TRUE" ]]; then
       export DEBIAN_FRONTEND=noninteractive
       apt-get update &> /dev/null && \
@@ -90,14 +90,7 @@ case $DISTRO in
     fi
     ADMIN_GRP="sudo"
     ;;
-  "almalinux" | "centos" | "rhel")
-    adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
-    if [[ $INSTALL_JAVA == "TRUE" ]]; then
-      yum install -y java-11-openjdk &> /dev/null
-    fi
-    ADMIN_GRP="wheel"
-    ;;
-  "amzn")
+  "almalinux" | "centos" | "rhel" | "amzn")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
     if [[ $INSTALL_JAVA == "TRUE" ]]; then
       yum install -y java-11 &> /dev/null
@@ -112,7 +105,7 @@ case $DISTRO in
       zypper install -y java-11-openjdk &> /dev/null
     fi
     ADMIN_GRP="wheel"
-  ;;
+    ;;
   *)
     yd_log "Unknown distribution ... exiting"
     exit 1
