@@ -37,11 +37,14 @@ yd_log () {
   echo -e "*** YD" "$(date -u "+%Y-%m-%d_%H%M%S_UTC"):" "$@"
 }
 
+# Ignore non-zero exit codes from grep when searches fail
+safe_grep() { grep "$@" || test $? = 1; }
+
 ################################################################################
 
 # Ensure we're running as root
-if [[ "$EUID" -ne 0 ]]
-  then yd_log "Please run as root ... aborting"
+if [[ "$EUID" -ne 0 ]] ; then
+  yd_log "Please run as root ... aborting"
   exit 1
 fi
 
@@ -61,17 +64,24 @@ yd_log "Starting YellowDog Agent Setup"
 ################################################################################
 
 yd_log "Checking for already created user: $YD_AGENT_USER"
-if id -u "$YD_AGENT_USER" >/dev/null 2>&1
-then
+if id -u "$YD_AGENT_USER" >/dev/null 2>&1 ; then
   yd_log "User $YD_AGENT_USER already exists ... aborting script"
   exit 1
 fi
 
 ################################################################################
 
-yd_log "Checking Linux distribution using 'ID' from '/etc/os-release'"
-DISTRO=$(grep ^ID= /etc/os-release | sed -e 's/ID=//' | sed -e 's/"//g')
-yd_log "Distro ID discovered as: $DISTRO"
+yd_log "Checking Linux distribution using 'ID_LIKE' from '/etc/os-release'"
+# Pick the first element of the 'ID_LIKE' property
+DISTRO=$(safe_grep "^ID_LIKE=" /etc/os-release | sed -e 's/ID_LIKE=//' \
+         | sed -e 's/"//g' | awk '{print $1}')
+# If empty, use the 'ID' property
+if [[ "$DISTRO" == "" ]] ; then
+  yd_log "Checking Linux distribution using 'ID' from '/etc/os-release'"
+  DISTRO=$(safe_grep "^ID=" /etc/os-release | sed -e 's/ID=//' \
+           | sed -e 's/"//g')
+fi
+yd_log "Distro type recorded as: $DISTRO"
 
 yd_log "Distro-specific steps: creating user $YD_AGENT_USER \
 and installing Java 11"
@@ -90,14 +100,14 @@ case $DISTRO in
     fi
     ADMIN_GRP="sudo"
     ;;
-  "almalinux" | "centos" | "rhel" | "amzn")
+  "almalinux" | "centos" | "rhel" | "amzn" | "fedora")
     adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
     if [[ $INSTALL_JAVA == "TRUE" ]]; then
       yum install -y java-11 &> /dev/null
     fi
     ADMIN_GRP="wheel"
     ;;
-  "sles")
+  "sles" | "suse")
     groupadd $YD_AGENT_USER
     useradd $YD_AGENT_USER --home-dir $YD_AGENT_HOME --create-home \
             -g $YD_AGENT_USER
@@ -188,8 +198,9 @@ EOM
 yd_log "Systemd files created"
 
 yd_log "Enabling Agent service (yd-agent)"
-systemctl enable yd-agent && systemctl start --no-block yd-agent
-
+systemctl enable yd-agent > /dev/null
+yd_log "Starting Agent service (yd-agent)"
+systemctl start --no-block yd-agent > /dev/null
 yd_log "Agent service enabled and started"
 
 ################################################################################
