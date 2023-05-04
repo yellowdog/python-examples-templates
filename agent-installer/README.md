@@ -44,8 +44,6 @@ The script can also be used to **install the YellowDog components dynamically** 
 userDataFile = "yd-agent-installer.sh"
 ```
 
-The user data file will be run (as root) when the instance boots, and will configure the instance to work with the YellowDog Scheduler as part of the boot process.
+The user data file will be run (as root) when the instance boots, and will configure the instance to work with the YellowDog Scheduler as part of the boot process. Typical total processing time for the installation steps is around 1 minute, in addition to the normal instance boot overheads.
 
-When using dynamic Agent installation, bear in mind that **every** provisioned instance will incur the costs of installing Java (probably using cloud-local repositories for the Linux distribution you're using), and downloading the YellowDog Agent (about 35MB in size) from YellowDog's external repository.
-
-There will be setup time expense for the Java installation, and ingress costs for downloading the Agent. For these reasons, we recommend against using this approach when provisioning instances at scale.
+When using dynamic Agent installation, bear in mind that **every** provisioned instance will incur the costs of installing Java using the distro's package manager (probably using cloud-local repositories for the Linux distro you're using), and also of downloading the YellowDog Agent (about 35MB in size) from YellowDog's external Nexus repository. For these reasons, we recommend against using this approach when provisioning instances at scale: use a custom image instead.
