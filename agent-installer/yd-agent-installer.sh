@@ -32,17 +32,16 @@ INSTALL_JAVA="TRUE"
 
 set -euo pipefail
 
-# Logging function
+# Logging
 yd_log () {
   echo -e "*** YD" "$(date -u "+%Y-%m-%d_%H%M%S_UTC"):" "$@"
 }
 
-# Ignore non-zero exit codes from grep when searches fail
+# Ignore non-zero exit codes from grep
 safe_grep() { grep "$@" || test $? = 1; }
 
 ################################################################################
 
-# Ensure we're running as root
 if [[ "$EUID" -ne 0 ]] ; then
   yd_log "Please run as root ... aborting"
   exit 1
@@ -63,7 +62,7 @@ yd_log "Starting YellowDog Agent Setup"
 
 ################################################################################
 
-yd_log "Checking for already created user: $YD_AGENT_USER"
+yd_log "Checking for existing user: $YD_AGENT_USER"
 if id -u "$YD_AGENT_USER" >/dev/null 2>&1 ; then
   yd_log "User $YD_AGENT_USER already exists ... aborting script"
   exit 1
@@ -71,20 +70,19 @@ fi
 
 ################################################################################
 
-yd_log "Checking Linux distribution using 'ID_LIKE' from '/etc/os-release'"
+yd_log "Checking distro using 'ID_LIKE' from '/etc/os-release'"
 # Pick the first element of the 'ID_LIKE' property
 DISTRO=$(safe_grep "^ID_LIKE=" /etc/os-release | sed -e 's/ID_LIKE=//' \
          | sed -e 's/"//g' | awk '{print $1}')
 # If empty, use the 'ID' property
 if [[ "$DISTRO" == "" ]] ; then
-  yd_log "Checking Linux distribution using 'ID' from '/etc/os-release'"
+  yd_log "Checking distro using 'ID' from '/etc/os-release'"
   DISTRO=$(safe_grep "^ID=" /etc/os-release | sed -e 's/ID=//' \
            | sed -e 's/"//g')
 fi
-yd_log "Distro type recorded as: $DISTRO"
+yd_log "Using distro = $DISTRO"
 
-yd_log "Distro-specific steps: creating user $YD_AGENT_USER \
-and installing Java 11"
+yd_log "Creating user $YD_AGENT_USER and installing Java 11"
 
 mkdir -p $YD_AGENT_ROOT
 
@@ -124,7 +122,7 @@ esac
 
 yd_log "User $YD_AGENT_USER created and Java installed"
 
-yd_log "Creating Agent data directories and setting directory permissions"
+yd_log "Creating Agent data directories / setting permissions"
 mkdir -p "$YD_AGENT_DATA/actions" "$YD_AGENT_DATA/workers"
 chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME $YD_AGENT_DATA
 
@@ -197,10 +195,9 @@ EOM
 
 yd_log "Systemd files created"
 
-yd_log "Enabling Agent service (yd-agent)"
-systemctl enable yd-agent > /dev/null
-yd_log "Starting Agent service (yd-agent)"
-systemctl start --no-block yd-agent > /dev/null
+yd_log "Enabling & starting Agent service (yd-agent)"
+systemctl enable yd-agent &> /dev/null
+systemctl start --no-block yd-agent &> /dev/null
 yd_log "Agent service enabled and started"
 
 ################################################################################
