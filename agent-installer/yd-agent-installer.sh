@@ -1,22 +1,6 @@
 #!/bin/bash
 
-# YellowDog Agent installer script. This script will:
-#   1. Create a user 'yd-agent' and its supporting directories
-#   2. Install Java 11 (this step can be omitted)
-#   3. Download and configure the YellowDog Agent JAR file
-#   4. Create the Agent's configuration file and startup script
-#   5. Set up the YellowDog Agent to run as a systemd service
-#   6. Optionally add 'yd-agent' to passwordless sudoers
-#   7. Optionally add a public SSH key for 'yd-agent'
-
-# Tested on:
-#   - Ubuntu 22.04
-#   - AlmaLinux 9.1
-#   - Amazon Linux 2
-#   - Debian 11
-#   - CentOS Stream 8 & 9
-#   - Red Hat Enterprise Linux 9.1
-#   - SUSE (SLES 15 SP4)
+# YellowDog Agent installer script.
 
 # Uncomment and set the Nexus username and password below.
 # These are required to download the YellowDog Agent JAR file.

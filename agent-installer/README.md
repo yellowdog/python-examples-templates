@@ -27,7 +27,15 @@ Java installation can be suppressed if Java (v11 or greater) is already installe
 
 There are optional script sections for adding the `yd-agent` user to the list of passwordless sudoers, and for adding an SSH public key. Uncomment these sections if you wish to add these features.
 
-The script is designed to work with a number of Linux distribution types; please inspect the script for details of the distros that have been tested. The script may need to be adapted for your specific instance details and choice of Linux distro.
+The script is designed to work with recent Linux distributions based on **Debian**, **Red Hat**, and **SUSE**. The following specific distributions have been tested, using AWS:
+
+- Ubuntu 22.04
+- Debian 11
+- Red Hat Enterprise Linux 9.1
+- CentOS Stream 8 & 9
+- AlmaLinux 9.1
+- Amazon Linux 2 (but note that Amaxon Linux 2023 doesn't currently work with YellowDog)
+- SUSE (SLES 15 SP4)
 
 ## Modes of Use
 
