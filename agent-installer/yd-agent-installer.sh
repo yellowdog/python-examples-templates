@@ -14,6 +14,29 @@ INSTALL_JAVA="TRUE"
 
 ################################################################################
 
+# Uncomment and populate the following for Configured Worker Pool installations
+
+CONFIGURED_WP="TRUE"
+CWP_INSTANCE_ID="HOST:$(cat /etc/hostname)"
+CWP_TOKEN="b8c63418-2d03-41f1-8daf-27c9c397f91f"
+
+CWP_REGION="<My Region>"
+CWP_INSTANCE_TYPE="<My Instance Type>"
+CWP_SOURCE_NAME="<My Source Name>"
+
+CWP_HOSTNAME="$(cat /etc/hostname)"
+CWP_PUBLIC_IP=""
+CWP_PRIVATE_IP=""
+CWP_VCPUS="$(nproc)"
+CWP_RAM="$(safe_grep MemTotal /proc/meminfo | \
+           awk -v OFMT='%.2f' '{mem_gb = $2 / (1024*1024) ; print mem_gb}')"
+CWP_WORKER_TAG="mars-compute"
+CWP_WORKER_COUNT="128"
+CWP_URL="https://portal.yellowdog.co/api"
+CWP_LOG_STR="%d{yyyy-MM-dd HH:mm:ss,SSS} [%10.10thread] %-5level %message %n"
+
+################################################################################
+
 set -euo pipefail
 
 # Logging
@@ -128,10 +151,34 @@ yd_log "Writing Agent configuration file (application.yaml)"
 yd_log "Inserting Task Type 'bash'"
 
 cat > $YD_AGENT_HOME/application.yaml <<- EOM
-yda.taskTypes:
-  - name: "bash"
-    run: "/bin/bash"
+yda:
+  taskTypes:
+    - name: "bash"
+      run: "/bin/bash"
 EOM
+
+if [[ $CONFIGURED_WP == "TRUE" ]]; then
+  yd_log "Adding Configured Worker Pool properties"
+  cat >> $YD_AGENT_HOME/application.yaml << EOM
+  provider: "ON_PREMISE"
+  instanceId: "$CWP_INSTANCE_ID"
+  hostname: "$CWP_HOSTNAME"
+  token: "$CWP_TOKEN"
+  services-schema.default-url: "$CWP_URL"
+  region: "$CWP_REGION"
+  instanceType: "$CWP_INSTANCE_TYPE"
+  sourceName: "$CWP_SOURCE_NAME"
+  vcpus: $CWP_VCPUS
+  ram: $CWP_RAM
+  workerTag: "$CWP_WORKER_TAG"
+  privateIpAddress: $CWP_PRIVATE_IP
+  publicIpAddress: $CWP_PUBLIC_IP
+  createWorkers:
+    targetType: "PER_NODE"
+    targetCount: $CWP_WORKER_COUNT
+  logging.pattern.console: "$CWP_LOG_STR"
+EOM
+fi
 
 yd_log "Agent configuration file created"
 
