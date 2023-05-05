@@ -14,29 +14,6 @@ INSTALL_JAVA="TRUE"
 
 ################################################################################
 
-# Uncomment and populate the following for Configured Worker Pool installations
-
-CONFIGURED_WP="TRUE"
-CWP_INSTANCE_ID="HOST:$(cat /etc/hostname)"
-CWP_TOKEN="b8c63418-2d03-41f1-8daf-27c9c397f91f"
-
-CWP_REGION="<My Region>"
-CWP_INSTANCE_TYPE="<My Instance Type>"
-CWP_SOURCE_NAME="<My Source Name>"
-
-CWP_HOSTNAME="$(cat /etc/hostname)"
-CWP_PUBLIC_IP=""
-CWP_PRIVATE_IP=""
-CWP_VCPUS="$(nproc)"
-CWP_RAM="$(safe_grep MemTotal /proc/meminfo | \
-           awk -v OFMT='%.2f' '{mem_gb = $2 / (1024*1024) ; print mem_gb}')"
-CWP_WORKER_TAG="mars-compute"
-CWP_WORKER_COUNT="128"
-CWP_URL="https://portal.yellowdog.co/api"
-CWP_LOG_STR="%d{yyyy-MM-dd HH:mm:ss,SSS} [%10.10thread] %-5level %message %n"
-
-################################################################################
-
 set -euo pipefail
 
 # Logging
@@ -46,6 +23,31 @@ yd_log () {
 
 # Ignore non-zero exit codes from grep
 safe_grep() { grep "$@" || test $? = 1; }
+
+################################################################################
+
+# Uncomment the section below for Configured Worker Pool installations.
+#    Ensure 'YD_TOKEN', at least, is populated.
+
+#CONFIGURED_WP="TRUE"
+#
+## The following can be overridden from the environment or populated directly
+#YD_TOKEN="${YD_TOKEN:-}"
+#YD_VCPUS="${YD_VCPUS:-$(nproc)}"
+#YD_RAM="${YD_RAM:-$(safe_grep MemTotal /proc/meminfo | \
+#           awk -v OFMT='%.2f' '{mem_gb = $2 / (1024*1024) ; print mem_gb}')}"
+#YD_INSTANCE_ID="${YD_INSTANCE_ID:-$(cat /etc/hostname)}"
+#YD_REGION="${YD_REGION:-}"
+#YD_INSTANCE_TYPE="${YD_INSTANCE_TYPE:-}"
+#YD_SOURCE_NAME="${YD_SOURCE_NAME:-}"
+#YD_PUBLIC_IP="${YD_PUBLIC_IP:-}"
+#YD_PRIVATE_IP="${YD_PRIVATE_IP:-}"
+#YD_HOSTNAME="${YD_HOSTNAME:-$(cat /etc/hostname)}"
+#YD_WORKER_TAG="${YD_WORKER_TAG:-}"
+#YD_WORKER_COUNT="${YD_WORKER_COUNT:-$YD_VCPUS}"
+#YD_URL="${YD_URL:-https://portal.yellowdog.co/api}"
+#YD_LOG_STR="${YD_LOG_STR:-%d{yyyy-MM-dd HH:mm:ss,SSS} [%10.10thread] \
+#%-5level %message %n}"
 
 ################################################################################
 
@@ -157,26 +159,27 @@ yda:
       run: "/bin/bash"
 EOM
 
+CONFIGURED_WP="${CONFIGURED_WP:-FALSE}"
 if [[ $CONFIGURED_WP == "TRUE" ]]; then
   yd_log "Adding Configured Worker Pool properties"
   cat >> $YD_AGENT_HOME/application.yaml << EOM
   provider: "ON_PREMISE"
-  instanceId: "$CWP_INSTANCE_ID"
-  hostname: "$CWP_HOSTNAME"
-  token: "$CWP_TOKEN"
-  services-schema.default-url: "$CWP_URL"
-  region: "$CWP_REGION"
-  instanceType: "$CWP_INSTANCE_TYPE"
-  sourceName: "$CWP_SOURCE_NAME"
-  vcpus: $CWP_VCPUS
-  ram: $CWP_RAM
-  workerTag: "$CWP_WORKER_TAG"
-  privateIpAddress: $CWP_PRIVATE_IP
-  publicIpAddress: $CWP_PUBLIC_IP
+  instanceId: "$YD_INSTANCE_ID"
+  hostname: "$YD_HOSTNAME"
+  token: "$YD_TOKEN"
+  services-schema.default-url: "$YD_URL"
+  region: "$YD_REGION"
+  instanceType: "$YD_INSTANCE_TYPE"
+  sourceName: "$YD_SOURCE_NAME"
+  vcpus: $YD_VCPUS
+  ram: $YD_RAM
+  workerTag: "$YD_WORKER_TAG"
+  privateIpAddress: "$YD_PRIVATE_IP"
+  publicIpAddress: "$YD_PUBLIC_IP"
   createWorkers:
     targetType: "PER_NODE"
-    targetCount: $CWP_WORKER_COUNT
-  logging.pattern.console: "$CWP_LOG_STR"
+    targetCount: $YD_WORKER_COUNT
+  logging.pattern.console: "$YD_LOG_STR"
 EOM
 fi
 

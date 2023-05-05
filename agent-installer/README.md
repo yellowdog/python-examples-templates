@@ -55,3 +55,16 @@ userDataFile = "yd-agent-installer.sh"
 The user data file will be run (as root) when the instance boots, and will configure the instance to work with the YellowDog Scheduler as part of the boot process. Typical total processing time for the installation steps is around 1 minute, in addition to the normal instance boot overheads.
 
 When using dynamic Agent installation, bear in mind that **every** provisioned instance will incur the costs of installing Java using the distro's package manager (probably using cloud-local repositories for the Linux distro you're using), and also of downloading the YellowDog Agent (about 35MB in size) from YellowDog's external Nexus repository. For these reasons, we recommend against using this approach when provisioning instances at scale: use a custom image instead.
+
+### Configured Worker Pool Creation
+
+The installer script can also be used to install and configure the YellowDog Agent on systems that will be included in **Configured Worker Pools**.
+
+Configured Worker Pools are on-premise systems, or systems that were otherwise not provisioned via the YellowDog Scheduler, e.g., instances that were provisioned directly via a cloud provider console. Adding the YellowDog Agent to these systems allows them to participate in YellowDog Task scheduling.
+
+To use this feature:
+
+1. Uncomment the section of the script starting with `CONFIGURED_WP="TRUE"`. This will populate additional properties in the Agent's `application.yaml` configuration file.
+2. The other `YD_` variables in this section can be populated directly in the script, or overridden via external environment variables of the same name.
+3. At a minimum, a **Configured Worker Pool Token** must be supplied in the `YD_TOKEN` variable. This tells the node to which Configured Worker Pool it belongs.
+4. The `YD_INSTANCE_ID` variable must be unique within the Worker Pool. By default, it's set to the hostname.
