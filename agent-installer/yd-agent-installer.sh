@@ -32,21 +32,13 @@ yd_log () {
 
 yd_log "Starting YellowDog Agent Setup"
 
-if [[ "$EUID" -ne 0 ]] ; then
+if [[ "$EUID" -ne 0 ]]; then
   yd_log "Please run as root ... aborting"
   exit 1
 fi
 
 # Ignore non-zero exit codes from grep
 safe_grep() { grep "$@" || test $? = 1; }
-
-################################################################################
-
-yd_log "Checking for existing user: $YD_AGENT_USER"
-if id -u "$YD_AGENT_USER" >/dev/null 2>&1 ; then
-  yd_log "User $YD_AGENT_USER already exists ... aborting script"
-  exit 1
-fi
 
 ################################################################################
 
@@ -62,49 +54,58 @@ if [[ "$DISTRO" == "" ]]; then
 fi
 yd_log "Using distro = $DISTRO"
 
-yd_log "Creating user $YD_AGENT_USER and installing Java 11"
+if [[ ! $(getent passwd $YD_AGENT_USER) ]]; then
+  yd_log "Creating user/group: $YD_AGENT_USER"
+  mkdir -p $YD_AGENT_ROOT
+  case $DISTRO in
+    "ubuntu" | "debian")
+      adduser $YD_AGENT_USER --home $YD_AGENT_HOME --disabled-password \
+              --quiet --gecos ""
+      ADMIN_GRP="sudo"
+      ;;
+    "almalinux" | "centos" | "rhel" | "amzn" | "fedora")
+      adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
+      ADMIN_GRP="wheel"
+      ;;
+    "sles" | "suse")
+      if [[ ! $(getent group $YD_AGENT_USER) ]]; then
+        groupadd $YD_AGENT_USER
+      fi
+      useradd $YD_AGENT_USER --home-dir $YD_AGENT_HOME --create-home \
+              -g $YD_AGENT_USER
+      ADMIN_GRP="wheel"
+      ;;
+    *)
+      yd_log "Unknown distribution ... exiting"
+      exit 1
+      ;;
+  esac
+  yd_log "Creating Agent data directories / setting permissions"
+  mkdir -p "$YD_AGENT_DATA/actions" "$YD_AGENT_DATA/workers"
+  chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME $YD_AGENT_DATA
+fi
 
-mkdir -p $YD_AGENT_ROOT
-
-# All distro-specific operations are encapsulated below
-case $DISTRO in
-  "ubuntu" | "debian")
-    adduser $YD_AGENT_USER --home $YD_AGENT_HOME --disabled-password \
-            --quiet --gecos ""
-    if [[ $INSTALL_JAVA == "TRUE" ]]; then
+if [[ $INSTALL_JAVA == "TRUE" ]]; then
+  yd_log "Installing Java"
+  case $DISTRO in
+    "ubuntu" | "debian")
       export DEBIAN_FRONTEND=noninteractive
-      apt-get update &> /dev/null && \
+      apt-get update &> /dev/null
       apt-get -y install openjdk-11-jre &> /dev/null
-    fi
-    ADMIN_GRP="sudo"
-    ;;
-  "almalinux" | "centos" | "rhel" | "amzn" | "fedora")
-    adduser $YD_AGENT_USER --home-dir $YD_AGENT_HOME
-    if [[ $INSTALL_JAVA == "TRUE" ]]; then
+      ;;
+    "almalinux" | "centos" | "rhel" | "amzn" | "fedora")
       yum install -y java-11 &> /dev/null
-    fi
-    ADMIN_GRP="wheel"
-    ;;
-  "sles" | "suse")
-    groupadd $YD_AGENT_USER
-    useradd $YD_AGENT_USER --home-dir $YD_AGENT_HOME --create-home \
-            -g $YD_AGENT_USER
-    if [[ $INSTALL_JAVA == "TRUE" ]]; then
+      ;;
+    "sles" | "suse")
       zypper install -y java-11-openjdk &> /dev/null
-    fi
-    ADMIN_GRP="wheel"
-    ;;
-  *)
-    yd_log "Unknown distribution ... exiting"
-    exit 1
-    ;;
-esac
-
-yd_log "User $YD_AGENT_USER created and Java installed"
-
-yd_log "Creating Agent data directories / setting permissions"
-mkdir -p "$YD_AGENT_DATA/actions" "$YD_AGENT_DATA/workers"
-chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME $YD_AGENT_DATA
+      ;;
+    *)
+      yd_log "Unknown distribution ... exiting"
+      exit 1
+      ;;
+  esac
+  yd_log "Java installed"
+fi
 
 ################################################################################
 
@@ -120,7 +121,7 @@ yd_log "Agent download complete"
 
 ################################################################################
 
-yd_log "Writing Agent configuration file (application.yaml)"
+yd_log "(Over)writing Agent configuration file (application.yaml)"
 yd_log "Inserting Task Type 'bash'"
 
 cat > $YD_AGENT_HOME/application.yaml << EOM
@@ -150,7 +151,7 @@ if [[ $CONFIGURED_WP == "TRUE" ]]; then
   publicIpAddress: "${YD_PUBLIC_IP:-}"
   createWorkers:
     targetType: "${YD_WORKER_TARGET_TYPE:-PER_NODE}"
-    targetCount: "${YD_WORKER_TARGET_COUNT:1}"
+    targetCount: "${YD_WORKER_TARGET_COUNT:-1}"
   logging.pattern.console: "${YD_LOG_STR:-%d{yyyy-MM-dd HH:mm:ss,SSS} \
 [%10.10thread] %-5level %message %n}"
 EOM
@@ -204,8 +205,8 @@ yd_log "Systemd files created"
 
 yd_log "Enabling & starting Agent service (yd-agent)"
 systemctl enable yd-agent &> /dev/null
-systemctl start --no-block yd-agent &> /dev/null
-yd_log "Agent service enabled and started"
+systemctl restart --no-block yd-agent &> /dev/null
+yd_log "Agent service enabled and (re)started"
 
 ################################################################################
 

@@ -45,6 +45,8 @@ The script is designed to work with recent Linux distributions based on **Debian
 
 The script can be used to **prepare a custom VM image**, by running it on an instance using a base image of your choice and then capturing a new custom image from this instance. Instances booted from the new custom image will be configured to work with the YellowDog Scheduler.
 
+Note the script can be run multiple times. This is useful if one wants to update the version of the Agent, etc.
+
 ### Dynamic Agent Installation
 
 The script can also be used to **install the YellowDog components dynamically** on any Linux instance, by supplying it as all or part of the **user data** for the instance. For example, the following could be specified using the Python Examples scripts as follows:
@@ -85,3 +87,5 @@ The following variables are available for specifying the properties of an instan
 | `YD_WORKER_TARGET_TYPE`  | Must be set to `"PER_NODE"` or `"PER_VCPU"`. By default, `"PER_NODE"`.                                                                              |
 | `YD_URL`                 | The URL of the YellowDog Platform's REST API. By default, `https://portal.yellowdog.co/api`.                                                        |
 | `YD_LOG_STR`             | Specifies the format of the Agent's `log4j` output. By default, `${YD_LOG_STR:-%d{yyyy-MM-dd HH:mm:ss,SSS} [%10.10thread] %-5level %message %n}`    |
+
+The script can be run multiple times. This is useful if one wants to update the version of the Agent, etc.
