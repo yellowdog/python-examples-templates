@@ -1,6 +1,10 @@
 # YellowDog Agent Installer Script
 
-The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to install and configure the YellowDog Agent and its dependencies on Linux instances running a number of different Linux distros.
+## Overview 
+
+The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to install and configure the YellowDog Agent and its dependencies on Linux. Several different Linux distros are supported.
+
+## Prerequisites
 
 Before use, the variables `NEXUS_USERNAME` and `NEXUS_PASSWORD` below must be provided, to allow download of the YellowDog Agent. Please contact YellowDog for the required credentials.
 
@@ -13,9 +17,9 @@ NEXUS_PASSWORD="${NEXUS_PASSWORD:-}"
 
 The credentials can be set in the environment or by directly editing the script.
 
-## Script Details
+## Script Actions
 
-The script performs the following steps:
+The script performs the following actions:
 
 1. Creates a new user `yd-agent` with home directory `/opt/yellowdog/agent`, and a data directory (for use during Task execution) at `/var/opt/yellowdog/agent`.
 2. Optionally installs Java 11 using the Linux distro's package manager.
@@ -32,7 +36,7 @@ There are optional script sections for adding the `yd-agent` user to the list of
 The script is designed to work with recent Linux distributions based on **Debian**, **Red Hat**, and **SUSE**. The following specific distributions have been tested, using AWS:
 
 - Ubuntu 22.04
-- Debian 11
+- Debian 10 & 11
 - Red Hat Enterprise Linux 9.1
 - CentOS Stream 8 & 9
 - AlmaLinux 9.1
