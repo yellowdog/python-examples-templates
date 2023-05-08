@@ -2,18 +2,18 @@
 
 # YellowDog Agent installer script.
 
-# Set the Nexus username and password below or via the environment.
-# These are required to download the YellowDog Agent JAR file.
-NEXUS_USERNAME="${NEXUS_USERNAME:-}"
-NEXUS_PASSWORD="${NEXUS_PASSWORD:-}"
+# Set the Nexus username and password below or via the environment,
+# to allow Agent download.
+YD_NEXUS_USERNAME="${YD_NEXUS_USERNAME:-}"
+YD_NEXUS_PASSWORD="${YD_NEXUS_PASSWORD:-}"
 
-# Set "INSTALL_JAVA" to anything other than "TRUE" to suppress
-# Java installation. The Agent startup script will expect to find
+# Set "YD_INSTALL_JAVA" to anything other than "TRUE" to disable
+# installing Java. The Agent startup script will expect to find
 # a Java (v11+) runtime at: /usr/bin/java.
-INSTALL_JAVA="${INSTALL_JAVA:-TRUE}"
+YD_INSTALL_JAVA="${YD_INSTALL_JAVA:-TRUE}"
 
 # Set to "TRUE" for a Configured Worker Pool installation
-CONFIGURED_WP="${CONFIGURED_WP:-FALSE}"
+YD_CONFIGURED_WP="${YD_CONFIGURED_WP:-FALSE}"
 
 # Define user and directory names used by the Agent
 YD_AGENT_USER="${YD_AGENT_USER:-yd-agent}"
@@ -25,7 +25,6 @@ YD_AGENT_DATA="${YD_AGENT_DATA:-/var/opt/yellowdog/agent/data}"
 
 set -euo pipefail
 
-# Logging
 yd_log () {
   echo -e "*** YD" "$(date -u "+%Y-%m-%d_%H%M%S_UTC"):" "$@"
 }
@@ -37,16 +36,13 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
-# Ignore non-zero exit codes from grep
 safe_grep() { grep "$@" || test $? = 1; }
 
 ################################################################################
 
 yd_log "Checking distro using 'ID_LIKE' from '/etc/os-release'"
-# Pick the first element of the 'ID_LIKE' property
 DISTRO=$(safe_grep "^ID_LIKE=" /etc/os-release | sed -e 's/ID_LIKE=//' \
          | sed -e 's/"//g' | awk '{print $1}')
-# If empty, use the 'ID' property
 if [[ "$DISTRO" == "" ]]; then
   yd_log "Checking distro using 'ID' from '/etc/os-release'"
   DISTRO=$(safe_grep "^ID=" /etc/os-release | sed -e 's/ID=//' \
@@ -85,7 +81,7 @@ if [[ ! $(getent passwd $YD_AGENT_USER) ]]; then
   chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME $YD_AGENT_DATA
 fi
 
-if [[ $INSTALL_JAVA == "TRUE" ]]; then
+if [[ $YD_INSTALL_JAVA == "TRUE" ]]; then
   yd_log "Installing Java"
   case $DISTRO in
     "ubuntu" | "debian")
@@ -111,7 +107,7 @@ fi
 
 yd_log "Starting Agent download"
 
-BASIC_AUTH=$(printf '%s:%s' "$NEXUS_USERNAME" "$NEXUS_PASSWORD" | base64)
+BASIC_AUTH=$(printf '%s:%s' "$YD_NEXUS_USERNAME" "$YD_NEXUS_PASSWORD" | base64)
 curl --fail -Ls "https://nexus.yellowdog.tech/service/\
 rest/v1/search/assets/download?sort=version&repository=maven-public&maven.\
 groupId=co.yellowdog.platform&maven.artifactId=agent&maven.extension=jar" \
@@ -121,7 +117,7 @@ yd_log "Agent download complete"
 
 ################################################################################
 
-yd_log "(Over)writing Agent configuration file (application.yaml)"
+yd_log "Writing new Agent configuration file (application.yaml)"
 yd_log "Inserting Task Type 'bash'"
 
 cat > $YD_AGENT_HOME/application.yaml << EOM
@@ -131,8 +127,7 @@ yda:
       run: "/bin/bash"
 EOM
 
-if [[ $CONFIGURED_WP == "TRUE" ]]; then
-  # YD_TOKEN must be set for Configured Worker Pools
+if [[ $YD_CONFIGURED_WP == "TRUE" ]]; then
   yd_log "Adding Configured Worker Pool properties"
   cat >> $YD_AGENT_HOME/application.yaml << EOM
   token: "$YD_TOKEN"

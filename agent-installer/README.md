@@ -6,13 +6,13 @@ The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to in
 
 ## Prerequisites
 
-Before use, the variables `NEXUS_USERNAME` and `NEXUS_PASSWORD` below must be provided, to allow download of the YellowDog Agent. Please contact YellowDog for the required credentials.
+Before use, the variables `YD_NEXUS_USERNAME` and `YD_NEXUS_PASSWORD` below must be provided, to allow download of the YellowDog Agent. Please contact YellowDog for the required credentials.
 
 ```shell
 # Set the Nexus username and password below or via environment.
 # These are required to download the YellowDog Agent JAR file.
-NEXUS_USERNAME="${NEXUS_USERNAME:-}"
-NEXUS_PASSWORD="${NEXUS_PASSWORD:-}"
+YD_NEXUS_USERNAME="${YD_NEXUS_USERNAME:-}"
+YD_NEXUS_PASSWORD="${YD_NEXUS_PASSWORD:-}"
 ```
 
 The credentials can be set in the environment or by directly editing the script.
@@ -29,7 +29,7 @@ The script performs the following actions:
 6. Optionally adds `yd-agent` to the list of passwordless sudoers.
 7. Optionally adds an SSH public key for `yd-agent`.
 
-Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `INSTALL_JAVA` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find a Java v11+ runtime at `/usr/bin/java`.
+Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `YD_INSTALL_JAVA` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find a Java v11+ runtime at `/usr/bin/java`.
 
 There are optional script sections for adding the `yd-agent` user to the list of passwordless sudoers, and for adding an SSH public key. Uncomment these sections if you wish to add these features.
 
@@ -40,8 +40,8 @@ The script is designed to work with recent Linux distributions based on **Debian
 - Red Hat Enterprise Linux 9.1
 - CentOS Stream 8 & 9
 - AlmaLinux 9.1
-- Amazon Linux 2 (but note that Amaxon Linux 2023 doesn't currently work with YellowDog due to the requirement to use IMDSv2)
-- SUSE (SLES 15 SP4)
+- Amazon Linux 2 (note that Amaxon Linux 2023 doesn't currently work with YellowDog due to the requirement to use IMDSv2)
+- SUSE SLES 15 SP4
 
 ## Modes of Use
 
@@ -70,7 +70,7 @@ The installer script can also be used to install and configure the YellowDog Age
 
 Configured Worker Pools are on-premise systems, or systems that were otherwise not provisioned via the YellowDog Scheduler, e.g., instances/hosts that were provisioned directly using on-premise provisioners or via a cloud provider console. Adding the YellowDog Agent to these systems allows them to participate in YellowDog Task scheduling.
 
-To use this feature, set the variable `CONFIGURED_WP` to `"TRUE"`. This will populate additional properties in the Agent's `application.yaml` configuration file (since these are not being set automatically as they are in the case of instances in Provisioned Worker Pools).
+To use this feature, set the variable `YD_CONFIGURED_WP` to `"TRUE"`. This will populate additional properties in the Agent's `application.yaml` configuration file (since these are not being set automatically as they are in the case of instances in Provisioned Worker Pools).
 
 The following variables are available for specifying the properties of an instance. These properties are advertised by the YellowDog Agent when it connects to the Worker Pool, and can be used for matching Task Groups to Workers. Note that Only one property, `YD_TOKEN` is required. These variables can be set/exported in the environment in which the installer script runs.
 
