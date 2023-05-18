@@ -1,6 +1,8 @@
 # Creating a YellowDog-Ready Windows Custom Image
 
-This README provides instructions for installing and configuring the YellowDog Agent on Windows instances. There are four steps:
+This README provides instructions for installing and configuring the YellowDog Agent on Windows instances to be used with Provisioned Worker Pools.
+
+There are four steps:
 
 1. Install CloudBase-Init
 2. Install the YellowDog Agent service
