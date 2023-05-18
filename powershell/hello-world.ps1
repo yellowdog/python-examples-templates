@@ -1,5 +1,10 @@
 echo 'Hello World!'
 echo ""
+echo "Arguments = $Args"
+echo ""
+echo "Environment: VAR_1 = $env:VAR_1"
+echo "Environment: VAR_2 = $env:VAR_2"
+echo ""
 echo "Contents of YellowDog Agent's application.yaml:"
 echo ""
 cat "C:\Program Files\YellowDog\Agent\config\application.yaml"

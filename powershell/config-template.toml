@@ -35,7 +35,7 @@
     workerTags = ["{{worker_tag}}"]
 
     inputs = ["hello-world.ps1"]
-    arguments = ["/c", "{{wr_name}}\\hello-world.ps1"]
+    arguments = ["/c", "{{wr_name}}\\hello-world.ps1", "1", "2", "3"]
     environment = {VAR_1 = "100", VAR_2 = "200"}
 
     maximumTaskRetries = 3
