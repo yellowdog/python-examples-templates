@@ -1,0 +1,43 @@
+[common.variables]  ############################################################
+
+    instances = 1
+    max_instances = 5
+    timeout = 5  # Node idle timeout in minutes
+    worker_tag = "{{tag}}-worker"
+
+[common]  ######################################################################
+
+    # Application Key and Secret
+    key = "<INSERT_APP_KEY_HERE>"  # <- ****************************************
+    secret = "<INSERT_APP_SECRET_HERE>"  # <- **********************************
+
+    namespace = "pyexamples-{{username}}"
+    tag = "powershell-{{username}}"
+
+[workerPool]  ##################################################################
+
+    templateId = "<INSERT_COMPUTE_TEMPLATE_ID_HERE>"  # <- *********************
+
+    workerTag = "{{worker_tag}}"
+    workersPerNode = 1
+
+    minNodes = 0
+    targetInstanceCount = "{{num:instances}}"
+    maxNodes = "{{num:max_instances}}"
+    nodeIdleTimeLimit = "{{num:timeout}}"
+
+    autoShutdown = true
+    autoShutdownDelay = "{{num:timeout}}"
+
+[workRequirement]  #############################################################
+
+    taskType = "powershell"
+    workerTags = ["{{worker_tag}}"]
+
+    inputs = ["hello-world.ps1"]
+    arguments = ["/c", "{{wr_name}}\\hello-world.ps1"]
+    environment = {VAR_1 = "100", VAR_2 = "200"}
+
+    maximumTaskRetries = 3
+
+# End ##########################################################################
