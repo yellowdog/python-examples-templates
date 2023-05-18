@@ -73,4 +73,4 @@ Once the steps above are completed, you'll be ready to experiment with the templ
 
 ## Installing the YellowDog Agent on Linux Instances
 
-The YellowDog Scheduler requires instances to run the YellowDog Agent in order to participate in Worker Pools. The [agent-installer](agent-installer) directory contains a generic installation script that can be used to create custom Linux images including the Agent, or which can be used to install the Agent dynamically when any Linux instance boots.
+The YellowDog Scheduler requires instances to run the YellowDog Agent in order to participate in Worker Pools. The [agent-installer](agent-installer/linux) directory contains a generic installation script that can be used to create custom Linux images including the Agent, or which can be used to install the Agent dynamically when any Linux instance boots.
