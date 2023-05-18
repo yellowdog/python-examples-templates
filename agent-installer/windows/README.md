@@ -2,7 +2,7 @@
 
 This README provides instructions for installing and configuring the YellowDog Agent on Windows instances to be used with Provisioned Worker Pools.
 
-There are four steps:
+There are five steps:
 
 1. Install CloudBase-Init
 2. Install the YellowDog Agent service
@@ -25,7 +25,7 @@ Installation will proceed silently and is usually very fast.
 
 ## (2) Download and Install the YellowDog Agent Service
 
-1. The YellowDog Agent can be downloaded from YellowDog's Nexus software repository at: https://nexus.yellowdog.tech/repository/raw-public/agent/msi/yd-agent-5.0.2.msi. Please use the credentials supplied separately to login to Nexus.
+1. The YellowDog Agent can be downloaded from YellowDog's Nexus software repository at: https://nexus.yellowdog.tech/repository/raw-public/agent/msi/yd-agent-5.0.2.msi. Please use the credentials supplied separately to sign in to Nexus.
 
 2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator using:
 
