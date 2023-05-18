@@ -6,6 +6,7 @@ This README provides instructions for installing and configuring the YellowDog A
 2. Install the YellowDog Agent service
 3. Populate the YellowDog Agent configuration file `application.yaml`
 4. Create a custom image (e.g., an AWS AMI) based on the Windows instance that can be used for subsequent provisioning.
+5. Register the image in a YellowDog Image Family of type Windows
 
 ## (1) Download and Install CloudBase-Init
 
@@ -51,3 +52,14 @@ Note that this will set up flexible but liberal Task Types that can execute arbi
 ## (4) Create a Custom Image
 
 The instance is now ready for creation of a custom image for use with YellowDog.
+
+## (5) Register the Image within a YellowDog Windows Image Family
+
+- Docs: https://docs.yellowdog.co/#/the-platform/managing-images
+- Portal: https://portal.yellowdog.co/#/images
+
+The Windows custom image must be registered within a YellowDog Windows Image Family in order for it to be correctly used within Provisioned Worker Pools.
+
+Add a Windows Image Family (named, e.g., `win-yd-agent` in namespace `win-test`), an Image Group (e.g., `v5_0_2`) and an image (e.g., `win-2022-eu-west-2`) pointing to the image ID of the custom image you've created.
+
+In provisioning requests, the ID or name (`yd/win-test/win-yd-agent`) of the Image Family you've just created should be used, and YellowDog will automatically select the correct image to be used.
