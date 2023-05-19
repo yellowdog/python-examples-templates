@@ -14,12 +14,11 @@ There are five steps:
 
 **[CloudBase-Init](https://cloudbase.it/cloudbase-init/)** runs at instance boot time and is used to set various configuration details for the YellowDog Agent. It's cloud-provider-agnostic and can also be used for other, non-YellowDog, instance preparation actions.
 
-1. Download the installer from https://cloudbase.it/downloads/CloudbaseInitSetup_x64.msi
+1. Download the installer from https://www.cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi
 
-
-2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator using:
+2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator using the following, and supplying the name of the downloaded MSI file:
 ```
-msiexec /i CloudbaseInitSetup_x64.msi /qn /l*v cloudbase-init-install.log
+msiexec /i <name_of_installer_file>.msi /qn /l*v cloudbase-init-install.log
 ```
 Installation will proceed silently and is usually very fast.
 
@@ -49,11 +48,11 @@ logging.pattern.console:"%d{yyyy-MM-ddHH:mm:ss,SSS}Worker[%10.10thread]\
 %-5level[%40logger{40}]%message[%class{0}:%method\\(\\):%line]%n"
 ```
 
-Note that this will set up flexible but liberal Task Types that can execute arbitrary commands as the local system user. For production use, more specific, custom Task Types are recommended.
+Note that this will set up flexible but liberal Task Types that can execute arbitrary commands on the instance. For production use, specific custom Task Type scripts are recommended.
 
 ## (4) Create a Custom Image
 
-The instance is now ready for creation of a custom image for use with YellowDog.
+The instance is now ready for creation of a custom image for use with YellowDog. Make a note of the ID of the custom image that is created, for use below.
 
 ## (5) Register the Image within a YellowDog Windows Image Family
 
