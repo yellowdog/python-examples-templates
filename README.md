@@ -2,7 +2,7 @@
 
 This repository contains example template solutions for use with the [Python Examples](https://github.com/yellowdog/python-examples) command line scripts, along with other YellowDog resources.
 
-Please see the **[YellowDog Quick Start](quickstart.md)** instructions for a fast path to getting started with YellowDog.
+Please see the **[YellowDog Quickstart](quickstart.md)** instructions for a fast path to getting started with YellowDog.
 
 ## Solution Templates
 
