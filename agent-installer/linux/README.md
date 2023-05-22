@@ -43,6 +43,19 @@ The script is designed to work with recent Linux distributions based on **Debian
 - Amazon Linux 2 (note that Amaxon Linux 2023 doesn't currently work with YellowDog due to the requirement to use IMDSv2)
 - SUSE SLES 15 SP4
 
+## Task Types
+
+By default, a single YellowDog **Task Type**, `bash`, is defined which simply runs Bash scripts:
+
+```yaml
+yda:
+  taskTypes:
+    - name: "bash"
+      run: "/bin/bash"
+```
+
+Edit this section of the script to customise Task Type(s) for your own requirements.
+
 ## Modes of Use
 
 ### Custom Image Creation
