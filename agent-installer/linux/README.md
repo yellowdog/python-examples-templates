@@ -72,7 +72,11 @@ Configured Worker Pools are on-premise systems, or systems that were otherwise n
 
 To use this feature, set the variable `YD_CONFIGURED_WP` to `"TRUE"`. This will populate additional properties in the Agent's `application.yaml` configuration file (since these are not being set automatically as they are in the case of instances in Provisioned Worker Pools).
 
-The following variables are available for specifying the properties of an instance. These properties are advertised by the YellowDog Agent when it connects to the Worker Pool, and can be used for matching Task Groups to Workers. Note that Only one property, `YD_TOKEN` is required. These variables can be set/exported in the environment in which the installer script runs.
+The following variables are available for specifying the properties of an instance. These properties are advertised by the YellowDog Agent when it connects to the Worker Pool, and can be used for matching Task Groups to Workers.
+
+Note that only one property, `YD_TOKEN` is absolutely required. Defaults will be provided for the others.
+
+These variables can be set in the script file itself or exported in the environment in which the installer script will run.
 
 | Property                 | Description                                                                                                                                         |
 |--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|

@@ -1,8 +1,8 @@
-# YellowDog Quickstart
+# YellowDog Quickstart for Provisioned Worker Pools
 
 The basic Workflow for getting started with YellowDog is described at https://docs.yellowdog.co/#/the-platform/workflow.
  
-Summarised below are the minimal steps necessary to prepare for provisioning YellowDog Worker Pools (collections of VM instances running the YellowDog Agent). The steps are performed using your account in the YellowDog Portal: https://portal.yellowdog.co/ (so a YellowDog Platform account is required), and you’ll need various pieces of cloud provider information including credentials and network details.
+Summarised below are the minimal steps necessary to prepare for creating YellowDog Provisioned Worker Pools (collections of VM instances running the YellowDog Agent). The steps are performed using your account in the YellowDog Portal: https://portal.yellowdog.co/ (so a YellowDog Platform account is required), and you’ll need various pieces of cloud provider information including credentials and network details.
  
 Once you’ve completed the steps below, you’ll be ready to provision instances and run workloads via YellowDog.
  
@@ -57,7 +57,7 @@ Finally, shut down the Worker Pool, which will deprovision all its instances.
  
 Create an **Application** using the Account -> Application tab.
  
-Make a note of the Application Key and Secret (they won’t be shown again) and give the Application access to your Keyring. You’ll use this later for API access to the Platform.
+Make a note of the Application Key and Secret (they won’t be shown again) and give the Application access to your Keyring. You’ll use these later for API access to the Platform.
 
 ## Next Steps
 
