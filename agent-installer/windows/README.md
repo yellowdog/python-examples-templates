@@ -18,9 +18,9 @@ There are five steps:
 
 2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator using the following, and supplying the name of the downloaded MSI file:
 ```
-msiexec /i <name_of_installer_file>.msi /qn /l*v cloudbase-init-install.log
+msiexec /i <name_of_installer_file>.msi /passive /l*v cloudbase-init-install.log
 ```
-Installation will proceed silently and is usually very fast.
+Installation will show a progress bar but will not require user interaction.
 
 ## (2) Download and Install the YellowDog Agent Service
 
@@ -29,13 +29,13 @@ Installation will proceed silently and is usually very fast.
 2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator using:
 
 ```shell
-msiexec /i yd-agent-5.0.2.msi /quiet /log yd-agent-install.log SERVICE_STARTUP=Manual
+msiexec /i yd-agent-5.0.2.msi /passive /log yd-agent-install.log SERVICE_STARTUP=Manual
 ```
-Installation will proceed silently and is usually very fast.
+Installation will show a progress bar but will not require user interaction.
 
 ## (3) Populate the YellowDog Agent Configuration File
 
-Edit the file `C:\Program Files\YellowDog\Agent\config\application.yaml` to insert the **Task Types** that will be supported. An example populated configuration is shown below:
+Edit the file `C:\Program Files\YellowDog\Agent\config\application.yaml` to insert the **Task Types** that will be supported. An example populated application configuration is shown below:
 
 ```shell
 yda.taskTypes:
