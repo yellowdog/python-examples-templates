@@ -10,6 +10,8 @@ There are five steps:
 4. Create a custom image (e.g., an AWS AMI) based on the Windows instance that can be used for subsequent provisioning.
 5. Register the image in a YellowDog Image Family of type Windows
 
+The installation steps have been tested on Windows Server 2019 and Windows Server 2022 instances in AWS.
+
 ## (1) Download and Install CloudBase-Init
 
 **[CloudBase-Init](https://cloudbase.it/cloudbase-init/)** runs at instance boot time and is used to set various configuration details for the YellowDog Agent. It's cloud-provider-agnostic and can also be used for other, non-YellowDog, instance preparation actions.
