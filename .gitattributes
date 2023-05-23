@@ -1,0 +1,2 @@
+# Preserve Unix (LF) line endings on checkout for shell scripts
+*.sh text eol=lf
