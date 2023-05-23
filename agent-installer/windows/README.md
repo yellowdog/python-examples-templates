@@ -44,8 +44,8 @@ yda.taskTypes:
   - name: "powershell"
     run: "powershell.exe"
 
-logging.pattern.console:"%d{yyyy-MM-ddHH:mm:ss,SSS}Worker[%10.10thread]\
-%-5level[%40logger{40}]%message[%class{0}:%method\\(\\):%line]%n"
+logging.pattern.console: "%d{yyyy-MM-ddHH:mm:ss,SSS}Worker[%10.10thread]%-5level[%40logger{40}]%message[%class{0}:%method\\(\\):%line]%n"
+
 ```
 
 Note that this will set up flexible but liberal Task Types that can execute arbitrary commands on the instance. For production use, specific custom Task Type scripts are recommended.
