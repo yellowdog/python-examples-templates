@@ -10,7 +10,7 @@ There are five steps:
 4. Create a custom image (e.g., an AWS AMI) based on the Windows instance that can be used for subsequent provisioning.
 5. Register the image in a YellowDog Image Family of type Windows
 
-The installation steps have been tested on Windows Server 2019 and Windows Server 2022 instances in AWS.
+The installation steps have been tested on Windows Server 2019 and Windows Server 2022, on instances running in AWS.
 
 ## (1) Download and Install CloudBase-Init
 
@@ -65,4 +65,4 @@ The Windows custom image must be registered within a YellowDog Windows Image Fam
 
 Add a Windows Image Family (named, e.g., `win-yd-agent` in namespace `win-test`), an Image Group (e.g., `v5_0_2`) and an image (e.g., `win-2022-eu-west-2`) pointing to the image ID of the custom image you've created.
 
-In provisioning requests, the ID or name (`yd/win-test/win-yd-agent`) of the Image Family you've just created should be used, and YellowDog will automatically select the correct image to be used.
+In provisioning requests, the ID or name (`yd/win-test/win-yd-agent`) of the Image Family you've just created should be used, and YellowDog will then automatically select the correct image (the most recent version applicable to the cloud provider and region).
