@@ -147,8 +147,9 @@ if [[ $YD_CONFIGURED_WP == "TRUE" ]]; then
   createWorkers:
     targetType: "${YD_WORKER_TARGET_TYPE:-PER_NODE}"
     targetCount: "${YD_WORKER_TARGET_COUNT:-1}"
-  logging.pattern.console: "${YD_LOG_STR:-%d{yyyy-MM-dd HH:mm:ss,SSS} \
-[%10.10thread] %-5level %message %n}"
+  logging.pattern.console: "${YD_LOG_STR:-%d{yyyy-MM-ddHH:mm:ss,SSS} \
+Worker[%10.10thread]\
+%-5level[%40logger{40}]%message[%class{0}:%method\\(\\):%line]%n"
 EOM
 fi
 

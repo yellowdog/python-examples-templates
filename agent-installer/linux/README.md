@@ -107,6 +107,6 @@ These variables can be set in the script file itself or exported in the environm
 | `YD_WORKER_TARGET_COUNT` | The number of workers to create per Node or per vCPU (as determined by `YD_WORKER_TARGET_TYPE`). By default, `1`.                                   |
 | `YD_WORKER_TARGET_TYPE`  | Must be set to `"PER_NODE"` or `"PER_VCPU"`. By default, `"PER_NODE"`.                                                                              |
 | `YD_URL`                 | The URL of the YellowDog Platform's REST API. By default, `https://portal.yellowdog.co/api`.                                                        |
-| `YD_LOG_STR`             | Specifies the format of the Agent's `log4j` output. By default, `${YD_LOG_STR:-%d{yyyy-MM-dd HH:mm:ss,SSS} [%10.10thread] %-5level %message %n}`    |
+| `YD_LOG_STR`             | Specifies the format of the Agent's `log4j` output. By default, `%d{yyyy-MM-ddHH:mm:ss,SSS} Worker[%10.10thread]%-5level[%40logger{40}]%message[%class{0}:%method\\(\\):%line]%n`    |
 
 The script can be run multiple times. This is useful if one wants to update the version of the Agent, etc.
