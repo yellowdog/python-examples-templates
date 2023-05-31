@@ -26,12 +26,12 @@ Installation will show a progress bar but will not require user interaction.
 
 ## (2) Download and Install the YellowDog Agent Service
 
-1. The YellowDog Agent can be downloaded from YellowDog's Nexus software repository at: https://nexus.yellowdog.tech/repository/raw-public/agent/msi/yd-agent-5.0.2.msi. Please use the credentials supplied separately to sign in to Nexus.
+1. The YellowDog Agent can be downloaded from YellowDog's Nexus software repository at: https://nexus.yellowdog.tech/repository/raw-public/agent/msi/yd-agent-5.0.3.msi. Please use the credentials supplied separately to sign in to Nexus.
 
 2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator using:
 
 ```shell
-msiexec /i yd-agent-5.0.2.msi /passive /log yd-agent-install.log SERVICE_STARTUP=Manual
+msiexec /i yd-agent-5.0.3.msi /passive /log yd-agent-install.log SERVICE_STARTUP=Manual
 ```
 Installation will show a progress bar but will not require user interaction.
 
@@ -62,6 +62,6 @@ The instance is now ready for creation of a custom image for use with YellowDog.
 
 The Windows custom image must be registered within a YellowDog Windows Image Family in order for it to be correctly used within Provisioned Worker Pools.
 
-Add a Windows Image Family (named, e.g., `win-yd-agent` in namespace `win-test`), an Image Group (e.g., `v5_0_2`) and an image (e.g., `win-2022-eu-west-2`) pointing to the image ID of the custom image you've created.
+Add a Windows Image Family (named, e.g., `win-yd-agent` in namespace `win-test`), an Image Group (e.g., `v5_0_3`) and an image (e.g., `win-2022-eu-west-2`) pointing to the image ID of the custom image you've created.
 
 In provisioning requests, the ID or name (`yd/win-test/win-yd-agent`) of the Image Family you've just created should be used, and YellowDog will then automatically select the correct image (the most recent version applicable to the cloud provider and region).
