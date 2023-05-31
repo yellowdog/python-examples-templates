@@ -129,10 +129,14 @@ EOM
 
 if [[ $YD_CONFIGURED_WP == "TRUE" ]]; then
   yd_log "Adding Configured Worker Pool properties"
+  YD_INSTANCE_ID="${YD_INSTANCE_ID:-$(cat /etc/hostname)}"
+  if [[ $YD_INSTANCE_ID == "" ]]; then
+    YD_INSTANCE_ID="ID-$RANDOM-$RANDOM-$RANDOM"
+  fi
   cat >> $YD_AGENT_HOME/application.yaml << EOM
   token: "$YD_TOKEN"
+  instanceId: "$YD_INSTANCE_ID"
   provider: "ON_PREMISE"
-  instanceId: "${YD_INSTANCE_ID:-$(cat /etc/hostname)}"
   hostname: "${YD_HOSTNAME:-$(cat /etc/hostname)}"
   services-schema.default-url: "${YD_URL:-https://portal.yellowdog.co/api}"
   region: "${YD_REGION:-}"
