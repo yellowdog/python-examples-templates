@@ -129,6 +129,10 @@ EOM
 
 if [[ $YD_CONFIGURED_WP == "TRUE" ]]; then
   yd_log "Adding Configured Worker Pool properties"
+  if [[ -z $YD_TOKEN ]]; then
+    yd_log "Error: YD_TOKEN must be set"
+    exit 1
+  fi
   YD_INSTANCE_ID="${YD_INSTANCE_ID:-$(cat /etc/hostname)}"
   if [[ $YD_INSTANCE_ID == "" ]]; then
     YD_INSTANCE_ID="ID-$RANDOM-$RANDOM-$RANDOM"
