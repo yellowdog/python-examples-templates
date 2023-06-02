@@ -29,9 +29,9 @@ The script performs the following actions:
 6. Optionally adds `yd-agent` to the list of passwordless sudoers.
 7. Optionally adds an SSH public key for `yd-agent`.
 
-Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `YD_INSTALL_JAVA` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find a Java v11+ runtime at `/usr/bin/java`.
+Java installation can be suppressed if Java (v11 or greater) is already installed, by setting the environment variable `YD_INSTALL_JAVA` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find a Java v11+ runtime at `/usr/bin/java`: an existing installation can be verified by running `/usr/bin/java --version`, to check the java executable exists and that it satisfies the version requirement.
 
-There are optional script sections for adding the `yd-agent` user to the list of passwordless sudoers, and for adding an SSH public key. Uncomment these sections if you wish to add these features.
+There are optional script sections for adding the `yd-agent` user to the list of passwordless sudoers, and for adding an SSH public key. Uncomment these sections (and supply an SSH public key) if you wish to add these features.
 
 The script is designed to work with recent Linux distributions based on **Debian**, **Red Hat**, and **SUSE**. The following specific distributions have been tested, using AWS:
 
@@ -54,7 +54,14 @@ yda:
       run: "/bin/bash"
 ```
 
-Edit this section of the script to customise Task Type(s) for your own requirements.
+Edit this section of the script to customise Task Type(s) for your own requirements. For example, a task type to run a specific executable might look like:
+
+```yaml
+yda:
+  taskTypes:
+    - name: "my-task-type"
+      run: "/usr/bin/my-executable"
+```
 
 ## Modes of Use
 
@@ -114,4 +121,4 @@ For more information on the variables in the `application.yaml` file, please see
 | `YD_SCHEDULE_ENABLED_STARTUP`  | A cron-like string specifying when to start the Agent's Workers. By default, `"0 0 18 * * MON-FRI"`.                                                |
 | `YD_SCHEDULE_ENABLED_SHUTDOWN` | A cron-like string specifying when to stop the Agent's Workers. By default, `"0 0 7 * * MON-FRI"`.                                                  |
 
-The script can be run multiple times. This is useful if one wants to update the version of the Agent, etc.
+The script can be run multiple times. This is useful if one wants to update the version of the Agent, etc. Note, however, that all files (including `application.yaml`) will be overwritten.
