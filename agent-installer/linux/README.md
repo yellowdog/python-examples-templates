@@ -116,7 +116,7 @@ The following set of variables is available for specifying the properties of an 
 | `YD_WORKER_TARGET_TYPE`  | Must be set to `"PER_NODE"` or `"PER_VCPU"`. By default, `"PER_NODE"`.                                                                                            |
 | `YD_URL`                 | The URL of the YellowDog Platform's REST API. By default, `https://portal.yellowdog.co/api`.                                                                      |
 | `YD_SCHEDULE_ENABLED`    | Whether to start/stop the Agent's Workers on a defined schedule. By default, `"false"`.                                                                           |
-| `YD_SCHEDULE_STARTUP`    | A cron-like string specifying when to start the Agent's Workers. By default, `"0 0 18 * * MON-FRI"`.                                                              |
-| `YD_SCHEDULE_SHUTDOWN`   | A cron-like string specifying when to stop the Agent's Workers. By default, `"0 0 7 * * MON-FRI"`.                                                                |
+| `YD_SCHEDULE_STARTUP`    | A cron-like list of strings specifying when to start the Agent's Workers. By default, `["0 0 18 * * MON-FRI"]`.                                                   |
+| `YD_SCHEDULE_SHUTDOWN`   | A cron-like list of strings specifying when to stop the Agent's Workers. By default, `["0 0 7 * * MON-FRI"]`.                                                     |
 
 The script can be run multiple times. This is useful if one wants to update the version of the Agent, etc. Note, however, that all files (including `application.yaml`) will be overwritten.
