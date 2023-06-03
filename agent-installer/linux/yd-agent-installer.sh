@@ -181,10 +181,19 @@ chmod ug+x $YD_AGENT_HOME/start.sh
 ################################################################################
 
 yd_log "Setting up the Agent systemd service"
+
+if [[ ! $YD_CONFIGURED_WP == "TRUE" ]]; then
+  SD_AFTER="cloud-final.service"
+  SD_WANTED_BY="cloud-init.target"
+else
+  SD_AFTER="network.target"
+  SD_WANTED_BY="multi-user.target"
+fi
+
 cat > /etc/systemd/system/yd-agent.service << EOM
 [Unit]
 Description=YellowDog Agent
-After=cloud-final.service
+After=$SD_AFTER
 
 [Service]
 User=$YD_AGENT_USER
@@ -197,7 +206,7 @@ RestartSec=5
 LimitMEMLOCK=8388608
 
 [Install]
-WantedBy=cloud-init.target
+WantedBy=$SD_WANTED_BY
 EOM
 
 mkdir -p /etc/systemd/system/yd-agent.service.d
