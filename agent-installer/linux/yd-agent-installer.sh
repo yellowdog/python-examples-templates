@@ -226,29 +226,6 @@ yd_log "Agent service enabled and (re)started"
 
 ################################################################################
 
-# Uncomment the following to give $YD_AGENT_USER passwordless sudo capability
-
-#yd_log "Adding $YD_AGENT_USER to passwordless sudoers"
-#usermod -aG $ADMIN_GRP $YD_AGENT_USER
-#echo -e "$YD_AGENT_USER\tALL=(ALL)\tNOPASSWD: ALL" > \
-#        /etc/sudoers.d/020-$YD_AGENT_USER
-
-################################################################################
-
-# Uncomment the following to add a public key for $YD_AGENT_USER
-
-#yd_log "Adding SSH public key for user $YD_AGENT_USER"
-#mkdir -p $YD_AGENT_HOME/.ssh
-#chmod og-rwx $YD_AGENT_HOME/.ssh
-## Insert your public key below, between the two 'EOM' entries
-#cat >> $YD_AGENT_HOME/.ssh/authorized_keys << EOM
-#<Insert Public Key Here>
-#EOM
-#chmod og-rw $YD_AGENT_HOME/.ssh/authorized_keys
-#chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME/.ssh
-
-################################################################################
-
 yd_log "YellowDog Agent installation complete"
 
 ################################################################################

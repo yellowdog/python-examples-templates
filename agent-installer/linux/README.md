@@ -31,8 +31,6 @@ The script performs the following actions:
 
 **Java installation can be suppressed** if Java (v11 or greater) is already installed, by setting the environment variable `YD_INSTALL_JAVA` in the script to anything other than `"TRUE"`. Note that the Agent startup script expects to find a Java v11+ runtime at `/usr/bin/java`: an existing installation can be verified by running `/usr/bin/java --version`, to check the java executable exists and that it satisfies the version requirement.
 
-There are optional script sections for adding the `yd-agent` user to the list of passwordless sudoers, and for adding an SSH public key. Uncomment these sections (and supply an SSH public key) if you wish to add these features.
-
 The script is designed to work with recent Linux distributions based on **Debian**, **Red Hat**, and **SUSE**. The following specific distributions have been tested, using AWS:
 
 - Ubuntu 22.04
@@ -63,6 +61,35 @@ yda:
       run: "/usr/bin/my-executable"
 ```
 
+## Passwordless sudo access for yd-agent
+
+Add the following to the end of the script to enable `yd-agent` for passwordless sudo access.
+
+```shell
+# Give $YD_AGENT_USER passwordless sudo capability
+yd_log "Adding $YD_AGENT_USER to passwordless sudoers"
+usermod -aG $ADMIN_GRP $YD_AGENT_USER
+echo -e "$YD_AGENT_USER\tALL=(ALL)\tNOPASSWD: ALL" > \
+        /etc/sudoers.d/020-$YD_AGENT_USER
+```
+
+## Add an SSH Public Key for yd-agent
+
+Add the following to the end of the script to add a public key for `yd-agent`, inserting the public key where indicated.
+
+```shell
+# Add a public key for $YD_AGENT_USER
+yd_log "Adding SSH public key for user $YD_AGENT_USER"
+mkdir -p $YD_AGENT_HOME/.ssh
+chmod og-rwx $YD_AGENT_HOME/.ssh
+# Insert your public key below, between the two 'EOM' entries
+cat >> $YD_AGENT_HOME/.ssh/authorized_keys << EOM
+<Insert Public Key Here>
+EOM
+chmod og-rw $YD_AGENT_HOME/.ssh/authorized_keys
+chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME/.ssh
+```
+
 ## Modes of Use
 
 ### Custom Image Creation
@@ -81,6 +108,13 @@ userDataFile = "yd-agent-installer.sh"
 ```
 
 The user data file will be run (as root) when the instance boots, and will configure the instance to work with the YellowDog Scheduler as part of the boot process. Typical total processing time for the installation steps is around 1 minute, in addition to the normal instance boot overheads.
+
+User data scripts can be concatenated using the `userDataFiles` property, for example:
+
+```toml
+[workerPool]
+userDataFiles = ["set-variables.sh", "yd-agent-installer.sh", "add-sudo.sh"]
+```
 
 When using dynamic Agent installation, bear in mind that **every** provisioned instance will incur the costs of installing Java using the distro's package manager (probably using cloud-local repositories for the Linux distro you're using), and also of downloading the YellowDog Agent (about 35MB in size) from YellowDog's external Nexus repository. For these reasons, we recommend against using this approach when provisioning instances at scale: use a custom image instead.
 
