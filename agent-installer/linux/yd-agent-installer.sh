@@ -50,6 +50,28 @@ if [[ "$DISTRO" == "" ]]; then
 fi
 yd_log "Using distro = $DISTRO"
 
+if [[ $YD_INSTALL_JAVA == "TRUE" ]]; then
+  yd_log "Installing Java"
+  case $DISTRO in
+    "ubuntu" | "debian")
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get update &> /dev/null
+      apt-get -y install openjdk-11-jre &> /dev/null
+      ;;
+    "almalinux" | "centos" | "rhel" | "amzn" | "fedora")
+      yum install -y java-11 &> /dev/null
+      ;;
+    "sles" | "suse")
+      zypper install -y java-11-openjdk &> /dev/null
+      ;;
+    *)
+      yd_log "Unknown distribution ... exiting"
+      exit 1
+      ;;
+  esac
+  yd_log "Java installed"
+fi
+
 if [[ ! $(getent passwd $YD_AGENT_USER) ]]; then
   yd_log "Creating user/group: $YD_AGENT_USER"
   mkdir -p $YD_AGENT_ROOT
@@ -79,28 +101,6 @@ if [[ ! $(getent passwd $YD_AGENT_USER) ]]; then
   yd_log "Creating Agent data directories / setting permissions"
   mkdir -p "$YD_AGENT_DATA/actions" "$YD_AGENT_DATA/workers"
   chown -R $YD_AGENT_USER:$YD_AGENT_USER $YD_AGENT_HOME $YD_AGENT_DATA
-fi
-
-if [[ $YD_INSTALL_JAVA == "TRUE" ]]; then
-  yd_log "Installing Java"
-  case $DISTRO in
-    "ubuntu" | "debian")
-      export DEBIAN_FRONTEND=noninteractive
-      apt-get update &> /dev/null
-      apt-get -y install openjdk-11-jre &> /dev/null
-      ;;
-    "almalinux" | "centos" | "rhel" | "amzn" | "fedora")
-      yum install -y java-11 &> /dev/null
-      ;;
-    "sles" | "suse")
-      zypper install -y java-11-openjdk &> /dev/null
-      ;;
-    *)
-      yd_log "Unknown distribution ... exiting"
-      exit 1
-      ;;
-  esac
-  yd_log "Java installed"
 fi
 
 ################################################################################
