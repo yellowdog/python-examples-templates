@@ -24,18 +24,17 @@
     minNodes = 0
     targetInstanceCount = "{{num:instances}}"
     maxNodes = "{{num:max_instances}}"
-    nodeIdleTimeLimit = "{{num:timeout}}"
 
-    autoShutdown = true
-    autoShutdownDelay = "{{num:timeout}}"
+    idleNodeShutdownTimeout = "{{num:timeout}}"
+    idlePoolShutdownTimeout = "{{num:timeout}}"
 
 [workRequirement]  #############################################################
 
     taskType = "powershell"
     workerTags = ["{{worker_tag}}"]
 
-    inputs = ["hello-world.ps1"]
-    arguments = ["/c", "{{wr_name}}\\hello-world.ps1", "1", "2", "3"]
+    executable = "hello-world.ps1"
+    arguments = ["1", "2", "3"]
     environment = {VAR_1 = "100", VAR_2 = "200"}
 
     maximumTaskRetries = 3

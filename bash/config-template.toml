@@ -25,10 +25,9 @@
     minNodes = 0
     targetInstanceCount = "{{num:instances}}"
     maxNodes = "{{num:max_instances}}"
-    nodeIdleTimeLimit = "{{num:timeout}}"
 
-    autoShutdown = true
-    autoShutdownDelay = "{{num:timeout}}"
+    idleNodeShutdownTimeout = "{{num:timeout}}"
+    idlePoolShutdownTimeout = "{{num:timeout}}"
 
 [workRequirement]  #############################################################
 
