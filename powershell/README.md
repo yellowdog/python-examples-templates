@@ -54,10 +54,10 @@ Multiple (identical) Tasks can be submitted by altering the `taskCount`, e.g.:
 yd-submit -C 100
 ```
 
-To run PowerShell commands directly instead of via an uploaded script, omit the `executable` property and use the following form in the `arguments` property in the `workRequirement` section:
+To run PowerShell commands directly (as if typed at a PowerShell command line) instead of via an uploaded script, omit the `executable` property and use the following form in the `arguments` property in the `workRequirement` section:
 
 ```toml
-arguments = ["/c", "echo 'Hello World!'"]
+arguments = ["-Command", "echo 'Hello World!'"]
 ```
 
 ## Downloading Results
