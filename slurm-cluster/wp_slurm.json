@@ -1,0 +1,82 @@
+{
+  "requirementTemplateUsage": {
+    "targetInstanceCount": 5
+  },
+  "provisionedProperties": {
+    "createNodeWorkers": {"targetCount": 0, "targetType": "PER_NODE"},
+    "nodeConfiguration": {
+      "nodeTypes": [
+        {"name": "slurmctld", "count": 1},
+        {"name": "slurmd", "min": 4, "slotNumbering": "REUSABLE"}
+      ],
+      "nodeEvents": {
+        "STARTUP_NODES_ADDED": [
+          {
+            "actions": [
+              {
+                "action": "WRITE_FILE",
+                "path": "nodes.json",
+                "content": "{\n  \"nodes\": [\n{{#otherNodes}}\n    {\n      \"name\": \"slurmd{{details.nodeSlot}}\",\n      \"ip\": \"{{details.privateIpAddress}}\"\n    }{{^-last}},{{/-last}}\n{{/otherNodes}}\n  ]\n}",
+                "nodeTypes": ["slurmctld"]
+              },
+              {
+                "action": "RUN_COMMAND",
+                "path": "start_simple_slurmctld",
+                "arguments": ["nodes.json"],
+                "nodeTypes": ["slurmctld"]
+              }
+            ]
+          },
+          {
+            "actions": [
+              {
+                "action": "RUN_COMMAND",
+                "path": "start_simple_slurmd",
+                "arguments": ["{{nodesByType.slurmctld.0.details.privateIpAddress}}", "{{node.details.nodeSlot}}"],
+                "nodeTypes": ["slurmd"]
+              }
+            ]
+          },
+          {
+            "actions": [
+              {
+                "action": "CREATE_WORKERS",
+                "totalWorkers": 1,
+                "nodeTypes": ["slurmctld"]
+              }
+            ]
+          }
+        ],
+        "NODES_ADDED": [
+          {
+            "actions": [
+              {
+                "action": "WRITE_FILE",
+                "path": "nodes.json",
+                "content": "{\n  \"nodes\": [\n{{#filteredNodes}}\n    {\n      \"name\": \"slurmd{{details.nodeSlot}}\",\n      \"ip\": \"{{details.privateIpAddress}}\"\n    }{{^-last}},{{/-last}}\n{{/filteredNodes}}\n  ]\n}",
+                "nodeTypes": ["slurmctld"]
+              },
+              {
+                "action": "RUN_COMMAND",
+                "path": "add_nodes",
+                "arguments": ["nodes.json"],
+                "nodeTypes": ["slurmctld"]
+              }
+            ]
+          },
+          {
+            "actions": [
+              {
+                "action": "RUN_COMMAND",
+                "path": "start_simple_slurmd",
+                "arguments": ["{{nodesByType.slurmctld.0.details.privateIpAddress}}", "{{node.details.nodeSlot}}"],
+                "nodeIdFilter": "EVENT",
+                "nodeTypes": ["slurmd"]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

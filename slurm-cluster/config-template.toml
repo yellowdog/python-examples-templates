@@ -1,0 +1,28 @@
+[common.variables]
+
+    worker_tag = "{{tag}}-worker"
+
+[common]  ######################################################################
+
+    # Application Key and Secret
+    key = "<INSERT_APP_KEY_HERE>"  # <- ****************************************
+    secret = "<INSERT_APP_SECRET_HERE>"  # <- **********************************
+
+    namespace = "pyexamples-{{username}}"
+    tag = "pyex-slurm-{{username}}"
+
+[workerPool]  ##################################################################
+
+    templateId = "<INSERT_COMPUTE_TEMPLATE_ID_HERE>"  # <- *********************
+    workerPoolData = "wp_slurm.json"
+    workerTag = "{{worker_tag}}"
+
+[workRequirement]  #############################################################
+
+    taskType = "srun"
+    arguments = ["-N", "4", "bash", "-c", "echo Hello, world from $(hostname)!"]
+
+    workerTags = ["{{worker_tag}}"]
+    exclusiveWorkers = true
+
+################################################################################
