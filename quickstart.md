@@ -16,6 +16,10 @@ Create a **Keyring** using the Keyrings tab. Make a note of the Keyring password
 Within the Keyring, add one or more cloud provider **Credentials** for the cloud accounts you want YellowDog to use for VM provisioning.
  
 Note that Keyrings are not automatically shared with other users in your YellowDog account. Users must explicitly claim access to each Keyring using the Keyring name and the Keyring password.
+
+### Cloud-Provider-Specific Requirements
+
+**AWS** credentials must have the **[required IAM policies](https://docs.yellowdog.co/#/knowledge-base/configuring-an-aws-account-for-use-with-yellowdog)**.
  
 ## Step 2: Create a Source Template
  
