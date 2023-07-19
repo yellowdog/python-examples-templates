@@ -2,11 +2,6 @@
 
 # YellowDog Agent installer script.
 
-# Set the Nexus username and password below or via the environment,
-# to allow Agent download.
-YD_NEXUS_USERNAME="${YD_NEXUS_USERNAME:-}"
-YD_NEXUS_PASSWORD="${YD_NEXUS_PASSWORD:-}"
-
 # Set "YD_INSTALL_JAVA" to anything other than "TRUE" to disable
 # installing Java. The Agent startup script will expect to find
 # a Java (v11+) runtime at: /usr/bin/java.
@@ -107,11 +102,10 @@ fi
 
 yd_log "Starting Agent download"
 
-BASIC_AUTH=$(printf '%s:%s' "$YD_NEXUS_USERNAME" "$YD_NEXUS_PASSWORD" | base64)
 curl --fail -Ls "https://nexus.yellowdog.tech/service/\
 rest/v1/search/assets/download?sort=version&repository=maven-public&maven.\
 groupId=co.yellowdog.platform&maven.artifactId=agent&maven.extension=jar" \
--o "$YD_AGENT_HOME/agent.jar" -H "Authorization: Basic $BASIC_AUTH"
+-o "$YD_AGENT_HOME/agent.jar"
 
 yd_log "Agent download complete"
 

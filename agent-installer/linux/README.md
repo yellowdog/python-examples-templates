@@ -2,20 +2,7 @@
 
 ## Overview 
 
-The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to install and configure the YellowDog Agent and its dependencies on Linux. Several different Linux distros are supported.
-
-## Prerequisites
-
-Before use, the variables `YD_NEXUS_USERNAME` and `YD_NEXUS_PASSWORD` below must be provided, to allow download of the YellowDog Agent. Please contact YellowDog for the required credentials.
-
-```shell
-# Set the Nexus username and password below or via environment.
-# These are required to download the YellowDog Agent JAR file.
-YD_NEXUS_USERNAME="${YD_NEXUS_USERNAME:-}"
-YD_NEXUS_PASSWORD="${YD_NEXUS_PASSWORD:-}"
-```
-
-The credentials can be exported in the environment or set by directly editing the script.
+The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to install and configure the YellowDog Agent and its dependencies on Linux. Several different Linux variants are supported.
 
 ## Script Actions
 
