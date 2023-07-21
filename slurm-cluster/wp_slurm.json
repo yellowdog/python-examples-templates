@@ -16,7 +16,7 @@
               {
                 "action": "WRITE_FILE",
                 "path": "nodes.json",
-                "content": "{\n  \"nodes\": [\n{{#otherNodes}}\n    {\n      \"name\": \"slurmd{{details.nodeSlot}}\",\n      \"ip\": \"{{details.privateIpAddress}}\"\n    }{{^-last}},{{/-last}}\n{{/otherNodes}}\n  ]\n}",
+                "content": "{\"nodes\":[{{#otherNodes}}{\"name\":\"slurmd{{details.nodeSlot}}\",\"ip\":\"{{details.privateIpAddress}}\"}{{^-last}},{{/-last}}{{/otherNodes}}]}",
                 "nodeTypes": ["slurmctld"]
               },
               {
@@ -53,7 +53,7 @@
               {
                 "action": "WRITE_FILE",
                 "path": "nodes.json",
-                "content": "{\n  \"nodes\": [\n{{#filteredNodes}}\n    {\n      \"name\": \"slurmd{{details.nodeSlot}}\",\n      \"ip\": \"{{details.privateIpAddress}}\"\n    }{{^-last}},{{/-last}}\n{{/filteredNodes}}\n  ]\n}",
+                "content": "{\"nodes\":[{{#filteredNodes}}{\"name\":\"slurmd{{details.nodeSlot}}\",\"ip\":\"{{details.privateIpAddress}}\"}{{^-last}},{{/-last}}{{/filteredNodes}}]}",
                 "nodeTypes": ["slurmctld"]
               },
               {

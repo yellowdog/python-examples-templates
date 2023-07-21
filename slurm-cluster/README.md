@@ -1,6 +1,6 @@
 # Slurm Cluster Example Template
 
-This directory contains simple, skeleton components for provisioning a Slurm cluster and submitting Work Requirements to it consisting of simple `srun` commands.
+This directory contains simple, skeleton components for provisioning a Slurm cluster and submitting Work Requirements consisting of simple `srun` jobs.
 
 ## Prerequisites
 
