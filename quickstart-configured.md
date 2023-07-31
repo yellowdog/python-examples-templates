@@ -17,9 +17,11 @@ Record the **Worker Pool Token** (a string of the form `aaaaaaaa-bbbb-cccc-dddd-
 
 **Networking requirements**: For the YellowDog Agent to connect back to the YellowDog Platform, the nodes must have the ability to make **outbound HTTPS connections**. No inbound connections are required.
  
-## Step 2: Install the YellowDog Agent on the Configured Nodes (Linux)
+## Step 2: Install the YellowDog Agent on the Configured Nodes
 
 To install the YellowDog Agent on a Linux system, please see the **[Configured Worker Pool](agent-installer/linux/README.md#configured-worker-pool-installation)** section of the Linux installation README.
+
+To install on Windows, please see **[Setting up a Windows Configured Worker Pool Node](agent-installer/windows/README-CONFIGURED.md)**.
 
 Once installation is complete, the nodes should appear in your Configured Worker Pool.
  
