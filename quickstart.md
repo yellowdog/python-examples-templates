@@ -39,9 +39,7 @@ Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to 
  
 Create a **Compute Template** using the Compute Templates tab.
  
-Create a simple **Static Template** including the Source you created above. Specify the required Instance Type in the Source panel and choose a **‘yd-agent-docker’** YellowDog image from the Images ID drop-down.
-
-Currently, the images in the `yd-*` image families have to be shared with your selected cloud provider account(s) by YellowDog before they can be used in instance provisioning. Please contact YellowDog Support to arrange this.
+Create a simple **Static Template** including the Source you created above. Specify the required Instance Type in the Source panel and choose the **‘yd/yellowdog/yd-agent-docker’** image family from the **Images Id** drop-down.
   
 ## Step 4: Test-Provision a Worker Pool
  
