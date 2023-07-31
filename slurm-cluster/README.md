@@ -6,7 +6,7 @@ This directory contains simple, skeleton components for provisioning a Slurm clu
 
 Please ensure you've [installed the YellowDog Python Examples scripts](https://github.com/yellowdog/python-examples#script-installation-with-pip) and that you've set up your YellowDog account. At a minimum, you'll need an Application Key and Secret, and a Compute Template ID.
 
-The Compute Template must specify the **`yd-agent-slurm`** image family.
+The Compute Template must specify the **`yd/yellowdog/yd-agent-slurm`** image family in the **Image Id** dropdown.
 
 ## Usage
 
