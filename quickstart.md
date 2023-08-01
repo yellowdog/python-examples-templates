@@ -28,7 +28,7 @@ Note that Keyrings are not automatically shared with other users in your YellowD
  
 Create a **Source** using the Source Templates tab. You’ll need various bits of cloud provider information.
 
-**Networking requirements**: For the YellowDog Agent to connect back to the YellowDog Platform, instances must have the ability to make **outbound HTTPS connections**. This is usually handled automatically if the public IP address option is selected, otherwise it may be necessary to ensure that the selected network has a suitable gateway configured. No inbound connections are required.
+**Networking requirements**: For the YellowDog Agent to connect back to the YellowDog Platform, instances must have the ability to make **outbound HTTPS connections**. The network security configuration (e.g., the nominated Security Group) must allow this outbound traffic, and a suitable gateway must be configured if required. No inbound connections are required.
  
 Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to be populated at the Compute Template level.
  
