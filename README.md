@@ -19,3 +19,4 @@ The YellowDog Scheduler requires instances to run the YellowDog Agent in order t
 - [Bash Script Template](bash/README.md)
 - [PowerShell Script Template](powershell/README.md)
 - [Slurm Cluster Template](slurm-cluster/README.md)
+- [Benchmark Template](benchmark/README.md)

@@ -1,0 +1,42 @@
+{
+  "workerTags": ["{{worker_tag}}"],
+  "maximumTaskRetries": 3,
+  "taskGroups": [
+    {
+      "name": "benchmarks",
+      "taskCount": "{{num:instances}}",
+      "tasks": [
+        {
+          "taskType": "bash",
+          "name": "instance-{{task_number}}",
+          "executable": "benchmarks.sh",
+          "inputs": ["common.sh", "linpack_bench.c"],
+          "outputs": ["*/cpu-info.txt", "*/instance-info.txt", "**/*_out.txt", "*/summary.txt"]
+        }
+      ]
+    },
+    {
+      "name": "summary",
+      "dependentOn": "benchmarks",
+      "ram": [1, 4096],
+      "tasks": [
+        {
+          "taskType": "bash",
+          "name": "create-summary",
+          "executable": "summarise.sh",
+          "inputs": [
+            "common.sh",
+            "get_instance_price.py",
+            "charts.py",
+            "pdf_report.py",
+            "yellowdog_pdf.py",
+            "yellowdog_header.png",
+            "yellowdog_footer.png"
+          ],
+          "inputsOptional": ["**/summary.txt"],
+          "outputs": ["summary.csv", "*.png", "report.pdf"]
+        }
+      ]
+    }
+  ]
+}

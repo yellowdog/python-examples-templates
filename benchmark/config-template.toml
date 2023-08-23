@@ -1,0 +1,54 @@
+[common.variables]  ############################################################
+
+    # The number of instances to provision
+    instances = 5
+
+    # This allows selection of the benchmark(s) to run
+    # Run all benchmarks by default
+    benchmarks = """\
+              sysbench, \
+              mysql-tpcc, \
+              coremark-standard, \
+              coremark-pro, \
+              linpack\
+              """
+    chart_color = "#E9BB4C"  # Hex RGB: YellowDog Gold
+
+    timeout = 10
+    worker_tag = "{{tag}}-worker"
+
+[common]  ######################################################################
+
+    key = ""  # <-------------------------------- Insert Application Key Here
+    secret = ""  # <----------------------------- Insert Application Secret Here
+
+    namespace = "pyexamples-{{username}}"
+    tag = "benchmark-{{username}}"
+
+[workRequirement]  #############################################################
+
+    workRequirementData = "wr_benchmark.json"
+
+[workRequirement.environment]    # Sets the 'environment' property for all Tasks
+
+    BENCHMARKS = "{{benchmarks}}"
+    CHART_COLOR = "{{chart_color}}"
+    WR_NAME = "{{wr_name}}"
+    KEY = "{{key}}"
+    SECRET = "{{secret}}"
+
+[workerPool]  ##################################################################
+
+    templateId = ""  # <-------------------------------- Insert Template ID here
+    userDataFile = "userdata.sh"
+
+    workerTag = "{{worker_tag}}"
+    workersPerNode = 1
+
+    targetInstanceCount = "{{num:instances}}"
+    minNodes = 0
+
+    idleNodeShutdownTimeout = "{{num:timeout}}"
+    idlePoolShutdownTimeout = "{{num:timeout}}"
+
+################################################################################
