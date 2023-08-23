@@ -1,6 +1,6 @@
 # PowerShell Solution Template
 
-This directory contains simple, skeleton components for submitting and running Tasks using PowerShell scripts or commands. A simple [example script](hello-world.ps1) is provided as a starting point, and this can be extended as required.
+This directory contains simple, skeleton components for submitting and running Tasks using PowerShell scripts or commands on Windows instances. A simple [example script](hello-world.ps1) is provided as a starting point, and this can be extended as required.
 
 ## Prerequisites
 
@@ -21,6 +21,8 @@ First, copy **`config-template.toml`** to a new file **`config.toml`** in the sa
 1. **`key`**: Insert the Key of the YellowDog Application you wish to use
 2. **`secret`**: Insert the Secret of the YellowDog Application you wish to use
 3. **`templateId`**: The ID of the Compute Template to use for provisioning Worker Pools. (The ID has a form like `ydid:crt:D9C548:fa40a830-dff3-44e1-a330-8331a4a68d4a` and can be obtained from the Compute Template's page in the YellowDog Portal.)
+
+The Compute Template must use a suitable Windows virtual machine image, with the YellowDog Agent installed.
 
 All other properties can be left at their default values.
 
