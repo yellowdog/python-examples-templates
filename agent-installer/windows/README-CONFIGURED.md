@@ -2,11 +2,12 @@
 
 This README provides instructions for installing and configuring the YellowDog Agent on Windows systems for use within Configured Worker Pools.
 
-There are three steps:
+There are four steps:
 
 1. Download the YellowDog Agent installer and install the service
 2. Populate the YellowDog Agent configuration file `application.yaml`
-3. Start the YellowDog Agent service
+3. Add the `abort.bat` batch script
+4. Start the YellowDog Agent service
 
 The installation steps have been tested on Windows Server 2019 and Windows Server 2022, but should also work on recent Desktop versions of Windows.
 
@@ -37,8 +38,12 @@ Example contents obtained this way are shown below:
 yda:
   # The task types that can be run by the agent. These are default values and should be replaced with task types corresponding to the work to be performed on the node.
   taskTypes:
-    - name: "echo"
-      run: "echo"
+    - name: "cmd"
+      run: "cmd.exe"
+      abort: "C:/Program Files/YellowDog/Agent/abort.bat"
+    - name: "powershell"
+      run: "powershell.exe"
+      abort: "C:/Program Files/YellowDog/Agent/abort.bat"
 
   # The instance provider. This is a default value and can be changed. Value must be one of the following: ALIBABA, AWS, GOOGLE, AZURE, OCI, ON_PREMISE
   provider: "ON_PREMISE"
@@ -66,9 +71,22 @@ yda:
 logging.pattern.console: "Worker [%10.10thread] %-5level [%40logger{40}] %message [%class{0}:%method\\(\\):%line]%n"
 ```
 
-Adjust the contents of the `application.yaml` file as required -- e.g., to add 'real' Task Types. For full details of the available options please see the [YellowDog Documentation](https://docs.yellowdog.co/#/the-platform/using-variables-in-the-configuration-file).
+Adjust the contents of the `application.yaml` file as required -- e.g., to add your own Task Types. For full details of the available options please see the [YellowDog Documentation](https://docs.yellowdog.co/#/the-platform/using-variables-in-the-configuration-file).
 
-## (3) Start the YellowDog Agent Service
+## (3) Add the `abort.bat` Batch Script
+
+Create a new file `C:\Program Files\YellowDog\Agent\abort.bat` with the following contents:
+
+```
+@REM This script is called by the YellowDog Agent when a Task is aborted.
+@REM The Process ID of the Task is supplied as the first (and only) parameter.
+@REM The script takes over all responsibility for aborting the Task and any
+@REM subprocesses, etc.
+@REM The script below kills the Task and its process tree.
+taskkill /F /T /PID %1
+```
+
+## (4) Start the YellowDog Agent Service
 
 Now that the Agent's configuration is populated, manually start the service by running the following command as Administrator:
 

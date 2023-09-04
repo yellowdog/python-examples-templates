@@ -2,13 +2,14 @@
 
 This README provides instructions for installing and configuring the YellowDog Agent on Windows instances to be used with Provisioned Worker Pools.
 
-There are five steps:
+There are six steps:
 
 1. Install CloudBase-Init
 2. Install the YellowDog Agent service
 3. Populate the YellowDog Agent configuration file `application.yaml`
-4. Create a custom image (e.g., an AWS AMI) based on the Windows instance that can be used for subsequent provisioning.
-5. Register the image in a YellowDog Image Family of type Windows
+4. Add the `abort.bat` batch script
+5. Create a custom image (e.g., an AWS AMI) based on the Windows instance that can be used for subsequent provisioning.
+6. Register the image in a YellowDog Image Family of type Windows
 
 The installation steps have been tested on Windows Server 2019 and Windows Server 2022, on instances running in AWS.
 
@@ -41,23 +42,38 @@ Installation will show a progress bar but will not require user interaction.
 
 Edit the file `C:\Program Files\YellowDog\Agent\config\application.yaml` to insert the **Task Types** that will be supported. An example populated application configuration is shown below:
 
-```shell
+```yaml
 yda.taskTypes:
   - name: "cmd"
     run: "cmd.exe"
+    abort: "C:/Program Files/YellowDog/Agent/abort.bat"
   - name: "powershell"
     run: "powershell.exe"
+    abort: "C:/Program Files/YellowDog/Agent/abort.bat"
 
 logging.pattern.console: "%d{yyyy-MM-dd HH:mm:ss,SSS} Worker[%10.10thread] %-5level[%40logger{40}] %message [%class{0}:%method:%line]%n"
 ```
 
 Note that this will set up flexible but liberal Task Types that can execute arbitrary commands on the instance. For production use, specific custom Task Type scripts are recommended.
 
-## (4) Create a Custom Image
+## (4) Add the `abort.bat` Batch Script
+
+Create a new file `C:\Program Files\YellowDog\Agent\abort.bat` with the following contents:
+
+```
+@REM This script is called by the YellowDog Agent when a Task is aborted.
+@REM The Process ID of the Task is supplied as the first (and only) parameter.
+@REM The script takes over all responsibility for aborting the Task and any
+@REM subprocesses, etc.
+@REM The script below kills the Task and its process tree.
+taskkill /F /T /PID %1
+```
+
+## (5) Create a Custom Image
 
 The instance is now ready for creation of a custom image for use with YellowDog. Make a note of the ID of the custom image that is created, for use below.
 
-## (5) Register the Image within a YellowDog Windows Image Family
+## (6) Register the Image within a YellowDog Windows Image Family
 
 - Docs: https://docs.yellowdog.co/#/the-platform/managing-images
 - Portal: https://portal.yellowdog.co/#/images
