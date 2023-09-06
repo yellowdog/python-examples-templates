@@ -6,18 +6,22 @@ There are four steps:
 
 1. Download the YellowDog Agent installer and install the service
 2. Populate the YellowDog Agent configuration file `application.yaml`
-3. Add the `abort.bat` batch script
-4. Start the YellowDog Agent service
+3. Start the YellowDog Agent service
 
 The installation steps have been tested on Windows Server 2019 and Windows Server 2022, but should also work on recent Desktop versions of Windows.
 
 ## (1) Download and Install the YellowDog Agent Service
 
-1. The latest version of the YellowDog Agent installer can be downloaded from YellowDog's Nexus software repository at: https://nexus.yellowdog.tech/service/rest/v1/search/assets/download?sort=version&repository=raw-public&group=%2Fagent%2Fmsi.
+1. The latest version of the YellowDog Agent installer can be downloaded from YellowDog's Nexus software repository at: https://nexus.yellowdog.tech/repository/raw-public/agent/msi/yd-agent-5.1.0_1.msi.
 
 The installer includes a self-contained, minimal version of Java, required for Agent execution.
 
-2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator, replacing `<AGENT_VERSION>` with the version of the downloaded file:
+2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator:
+
+```shell
+msiexec /i yd-agent-5.1.0_1.msi /passive /log yd-agent-install.log SERVICE_STARTUP=Manual
+```
+Installation will show a progress bar but will not require user interaction.
 
 ```shell
 msiexec /i yd-agent-<AGENT_VERSION>.msi /passive /log yd-agent-install.log SERVICE_STARTUP=Automatic
@@ -32,7 +36,7 @@ Overwrite the contents of the file `C:\Program Files\YellowDog\Agent\config\appl
 - Create (or select) the desired **Configured Worker Pool**
 - Copy the text supplied using the **Agent Configuration: View** button
 
-Example contents obtained this way are shown below:
+Example contents obtained this way are shown below, but with the `taskTypes` modified.
 
 ```yaml
 yda:
@@ -40,11 +44,11 @@ yda:
   taskTypes:
     - name: "cmd"
       run: "cmd.exe"
-      abort: "C:/Program Files/YellowDog/Agent/abort.bat"
+      abort: "yd_abort.bat"
     - name: "powershell"
       run: "powershell.exe"
-      abort: "C:/Program Files/YellowDog/Agent/abort.bat"
-
+      abort: "yd_abort.bat"
+  
   # The instance provider. This is a default value and can be changed. Value must be one of the following: ALIBABA, AWS, GOOGLE, AZURE, OCI, ON_PREMISE
   provider: "ON_PREMISE"
 
@@ -73,9 +77,13 @@ logging.pattern.console: "Worker [%10.10thread] %-5level [%40logger{40}] %messag
 
 Adjust the contents of the `application.yaml` file as required -- e.g., to add your own Task Types. For full details of the available options please see the [YellowDog Documentation](https://docs.yellowdog.co/#/the-platform/using-variables-in-the-configuration-file).
 
-## (3) Add the `abort.bat` Batch Script
+### Abort Handlers
 
-Create a new file `C:\Program Files\YellowDog\Agent\abort.bat` with the following contents:
+If a Task is aborted before it has concluded it can leave orphan processes (etc.) running and taking up resources. To prevent this, the Task Types include an *optional* `abort:` clause, pointing to a Windows batch script that can implement appropriate clean-up steps on abort.
+
+If the `abort:` clause is present its batch file will be called by the Agent on Task abort, and it is passed the process ID of the Task as its first and only argument. The abort batch file then assumes **all** responsibility for terminating the Task process itself and anything else that needs to be cleaned up.
+
+The YellowDog Agent Installer supplies a default abort handler, `yd_abort.bat`. This simple handler will kill the Task process and its entire process tree, as shown below:
 
 ```
 @REM This script is called by the YellowDog Agent when a Task is aborted.
@@ -86,7 +94,9 @@ Create a new file `C:\Program Files\YellowDog\Agent\abort.bat` with the followin
 taskkill /F /T /PID %1
 ```
 
-## (4) Start the YellowDog Agent Service
+You can add your own abort handler(s) if more sophisticated abort handling is required.
+
+## (3) Start the YellowDog Agent Service
 
 Now that the Agent's configuration is populated, manually start the service by running the following command as Administrator:
 

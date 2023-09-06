@@ -2,14 +2,13 @@
 
 This README provides instructions for installing and configuring the YellowDog Agent on Windows instances to be used with Provisioned Worker Pools.
 
-There are six steps:
+There are five steps:
 
 1. Install CloudBase-Init
 2. Install the YellowDog Agent service
 3. Populate the YellowDog Agent configuration file `application.yaml`
-4. Add the `abort.bat` batch script
-5. Create a custom image (e.g., an AWS AMI) based on the Windows instance that can be used for subsequent provisioning.
-6. Register the image in a YellowDog Image Family of type Windows
+4. Create a custom image (e.g., an AWS AMI) based on the Windows instance that can be used for subsequent provisioning.
+5. Register the image in a YellowDog Image Family of type Windows
 
 The installation steps have been tested on Windows Server 2019 and Windows Server 2022, on instances running in AWS.
 
@@ -27,14 +26,14 @@ Installation will show a progress bar but will not require user interaction.
 
 ## (2) Download and Install the YellowDog Agent Service
 
-1. The latest version of the YellowDog Agent installer can be downloaded from YellowDog's Nexus software repository at: https://nexus.yellowdog.tech/service/rest/v1/search/assets/download?sort=version&repository=raw-public&group=%2Fagent%2Fmsi.
+1. The latest version of the YellowDog Agent installer can be downloaded from YellowDog's Nexus software repository at: https://nexus.yellowdog.tech/repository/raw-public/agent/msi/yd-agent-5.1.0_1.msi.
 
 The installer includes a self-contained, minimal version of Java, required for Agent execution.
 
-2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator, replacing `<AGENT_VERSION>` with the version of the downloaded file:
+2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator:
 
 ```shell
-msiexec /i yd-agent-<AGENT_VERSION>.msi /passive /log yd-agent-install.log SERVICE_STARTUP=Manual
+msiexec /i yd-agent-5.1.0_1.msi /passive /log yd-agent-install.log SERVICE_STARTUP=Manual
 ```
 Installation will show a progress bar but will not require user interaction.
 
@@ -46,19 +45,23 @@ Edit the file `C:\Program Files\YellowDog\Agent\config\application.yaml` to inse
 yda.taskTypes:
   - name: "cmd"
     run: "cmd.exe"
-    abort: "C:/Program Files/YellowDog/Agent/abort.bat"
+    abort: "yd_abort.bat"
   - name: "powershell"
     run: "powershell.exe"
-    abort: "C:/Program Files/YellowDog/Agent/abort.bat"
+    abort: "yd_abort.bat"
 
 logging.pattern.console: "%d{yyyy-MM-dd HH:mm:ss,SSS} Worker[%10.10thread] %-5level[%40logger{40}] %message [%class{0}:%method:%line]%n"
 ```
 
 Note that this will set up flexible but liberal Task Types that can execute arbitrary commands on the instance. For production use, specific custom Task Type scripts are recommended.
 
-## (4) Add the `abort.bat` Batch Script
+### Abort Handlers
 
-Create a new file `C:\Program Files\YellowDog\Agent\abort.bat` with the following contents:
+If a Task is aborted before it has concluded it can leave orphan processes (etc.) running and taking up resources. To prevent this, the Task Types include an *optional* `abort:` clause, pointing to a Windows batch script that can implement appropriate clean-up steps on abort.
+
+If the `abort:` clause is present its batch file will be called by the Agent on Task abort, and it is passed the process ID of the Task as its first and only argument. The abort batch file then assumes **all** responsibility for terminating the Task process itself and anything else that needs to be cleaned up.
+
+The YellowDog Agent Installer supplies a default abort handler, `yd_abort.bat`. This simple handler will kill the Task process and its entire process tree, as shown below:
 
 ```
 @REM This script is called by the YellowDog Agent when a Task is aborted.
@@ -69,11 +72,13 @@ Create a new file `C:\Program Files\YellowDog\Agent\abort.bat` with the followin
 taskkill /F /T /PID %1
 ```
 
-## (5) Create a Custom Image
+You can add your own abort handler(s) if more sophisticated abort handling is required.
+
+## (4) Create a Custom Image
 
 The instance is now ready for creation of a custom image for use with YellowDog. Make a note of the ID of the custom image that is created, for use below.
 
-## (6) Register the Image within a YellowDog Windows Image Family
+## (5) Register the Image within a YellowDog Windows Image Family
 
 - Docs: https://docs.yellowdog.co/#/the-platform/managing-images
 - Portal: https://portal.yellowdog.co/#/images
