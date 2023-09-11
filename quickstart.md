@@ -28,9 +28,17 @@ Note that Keyrings are not automatically shared with other users in your YellowD
  
 Create a **Source** using the Source Templates tab. You’ll need various bits of cloud provider information.
 
-**Networking requirements**: For the YellowDog Agent to connect back to the YellowDog Platform, instances must have the ability to make **outbound HTTPS connections**. The network security configuration (e.g., the nominated Security Group) must allow this outbound traffic, and a suitable gateway must be configured if required. No inbound connections are required.
- 
 Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to be populated at the Compute Template level.
+
+**Networking requirements**: For the YellowDog Agent to connect back to the YellowDog Platform, instances must have the ability to make **outbound HTTPS connections**. The network security configuration (e.g., the nominated Security Group) must allow this outbound traffic, and a suitable gateway must be configured if required. No inbound connections are required.
+
+**VM image availability**: If you plan to use any of the YellowDog-supplied public VM images (such as the ‘yd/yellowdog/yd-agent-docker’ images mentioned below), they are available in the following service provider regions:
+
+- **ALIBABA**: `eu-west-1`
+- **AWS**: `eu-west-1`, `eu-west-2`, `us-east-1`, `us-east-2`, `us-west-1`, `us-west-2`
+- **AZURE**: `northeurope`
+- **GCP**: all regions
+- **OCI**: `uk-london-1`
  
 ## Step 3: Create a Compute Template
  
