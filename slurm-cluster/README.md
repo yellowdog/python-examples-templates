@@ -32,7 +32,7 @@ yd-provision
 
 This will provision a five node Worker Pool which autoconfigures into a Slurm cluster. One of the nodes will be the Slurm controller and will host a YellowDog Worker for accepting `srun` Tasks, the others will be Slurm worker nodes.
 
-The definition of the Worker Pool is found in [wp_slurm.json](wp_slurm.json).
+The specification of the Worker Pool is found in [wp_slurm.json](wp_slurm.json).
 
 ## Submitting Work Requirements
 

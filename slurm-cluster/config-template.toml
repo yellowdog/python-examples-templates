@@ -22,6 +22,12 @@
     taskType = "srun"
     arguments = ["-N", "4", "bash", "-c", "echo Hello, world from $(hostname)!"]
 
+# Use the following instead of the above to switch to sbatch submission
+#    taskType = "sbatch"
+#    inputs = ["sbatch-script.sh"]
+#    arguments = ["-N", "4", "{{wr_name}}/sbatch-script.sh"]
+#    outputs = ["*.out"]
+
     workerTags = ["{{worker_tag}}"]
     exclusiveWorkers = true
 
