@@ -67,7 +67,11 @@ Finally, shut down the Worker Pool, which will deprovision all its instances.
  
 Create an **Application** using the Account -> Application tab.
  
-Make a note of the Application Key and Secret (they won’t be shown again) and give the Application access to your Keyring. You’ll use these later for API access to the Platform.
+- Make a note of the Application Key and Secret (they won’t be shown again)
+- Make the Application a member of the `administrators` group
+- Give the Application access to the Keyring you created
+
+You’ll use the Key and Secret later for API access to the Platform.
 
 ## Next Steps
 

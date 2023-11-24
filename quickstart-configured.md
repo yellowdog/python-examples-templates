@@ -32,7 +32,7 @@ Once installation is complete, the nodes should appear in your Configured Worker
  
 Create an **Application** using the Account -> Application tab.
  
-Make a note of the Application Key and Secret (they won’t be shown again). You’ll use these later for API access to the Platform.
+Make a note of the Application Key and Secret (they won’t be shown again), and make the Application a member of the `administrators` group. You’ll use the Key and Secret later for API access to the Platform.
 
 ## Next Steps
 
