@@ -113,7 +113,7 @@ Configured Worker Pools are on-premise systems, or systems that were otherwise n
 
 To use this feature:
 
-1. Set the variable `YD_CONFIGURED_WP` to `"TRUE"`. This will activate the population of additional properties in the Agent's `application.yaml` configuration file (since will not be set automatically as they are in the case of instances in Provisioned Worker Pools).
+1. Set the variable `YD_CONFIGURED_WP` to `"TRUE"`. This will activate the population of additional properties in the Agent's `application.yaml` configuration file (since these will not be set automatically as they are in the case of instances in Provisioned Worker Pools).
 2. Supply a value for `YD_TOKEN`, matching the token of the YellowDog Configured Worker Pool to which this host will register. 
 
 The variables can be set directly in the script file itself or exported in the environment in which the installer script will run to override the defaults.
