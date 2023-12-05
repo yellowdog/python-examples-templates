@@ -4,7 +4,7 @@ This directory contains simple, skeleton components for submitting and running T
 
 ## Prerequisites
 
-Please ensure you've [installed the YellowDog Python Examples scripts](https://github.com/yellowdog/python-examples#script-installation-with-pip) and that you've set up your YellowDog account. At a minimum, you'll need an Application Key and Secret, and a Compute Template ID.
+Please ensure you've [installed the YellowDog Python Examples scripts](https://github.com/yellowdog/python-examples#script-installation-with-pip) and that you've set up your YellowDog account. At a minimum, you'll need an Application Key and Secret, and a Compute Template ID (unless you're only using Configured Worker Pools).
 
 ## Usage
 
@@ -23,6 +23,8 @@ First, copy **`config-template.toml`** to a new file **`config.toml`** in the sa
 All other properties can be left at their default values.
 
 ## Provisioning Worker Pools
+
+(Not required if you're exclusively using Configured Worker Pools.)
 
 ```shell
 yd-provision
