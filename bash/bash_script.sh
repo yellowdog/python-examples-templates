@@ -33,6 +33,11 @@ echo
 echo "Arguments supplied to the Task:" "$@"
 echo
 
+echo "Listing YellowDog environment variables:"
+echo
+set | grep "YD"
+echo
+
 # Sleep for 30-60 seconds in lieu of doing real work ...
 SLEEP_TIME="$(($RANDOM%30))"
 let SLEEP_TIME=$SLEEP_TIME+30
