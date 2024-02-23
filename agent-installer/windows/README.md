@@ -18,7 +18,7 @@ The installation steps have been tested on Windows Server 2019 and Windows Serve
 
 1. Download the installer from https://www.cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi
 
-2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator using the following, and supplying the name of the downloaded MSI file:
+2. In the directory to which the file has been downloaded, run the installer from the command line as Administrator using the following command:
 ```
 msiexec /i CloudbaseInitSetup_Stable_x64.msi /passive /l*v cloudbase-init-install.log
 ```
