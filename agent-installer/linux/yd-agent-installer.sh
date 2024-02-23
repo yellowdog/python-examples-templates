@@ -213,10 +213,11 @@ EOM
 
 yd_log "Systemd files created"
 
-yd_log "Enabling & starting Agent service (yd-agent)"
+yd_log "(Stopping,) enabling & starting Agent service (yd-agent)"
+systemctl stop yd-agent &> /dev/null
 systemctl enable yd-agent &> /dev/null
-systemctl restart --no-block yd-agent &> /dev/null
-yd_log "Agent service enabled and (re)started"
+systemctl start --no-block yd-agent &> /dev/null
+yd_log "Agent service (stopped,) enabled and (re)started"
 
 ################################################################################
 
