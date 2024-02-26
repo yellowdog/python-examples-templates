@@ -28,7 +28,7 @@
 [workRequirement]  #############################################################
 
     workRequirementData = "wr_benchmark.json"
-    captureTaskOutput = true
+    uploadTaskProcessOutput = true
 
 [workRequirement.environment]    # Sets the 'environment' property for all Tasks
 

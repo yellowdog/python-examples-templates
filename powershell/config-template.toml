@@ -36,7 +36,7 @@
     executable = "hello-world.ps1"
     arguments = ["1", "2", "3"]
     environment = {VAR_1 = "100", VAR_2 = "200"}
-    captureTaskOutput = true
+    uploadTaskProcessOutput = true
 
     maximumTaskRetries = 3
 

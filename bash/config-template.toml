@@ -42,7 +42,7 @@
     arguments = [1, 2, 3]
     environment = {TEST_ENV_1 = "100", TEST_ENV_2 = "200"}
     taskDataFile = "taskdata.txt"
-    captureTaskOutput = true
+    uploadTaskProcessOutput = true
 
     taskCount = 1
     maximumTaskRetries = 3
