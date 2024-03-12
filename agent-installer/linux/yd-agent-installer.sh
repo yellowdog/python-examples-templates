@@ -141,8 +141,8 @@ if [[ $YD_CONFIGURED_WP == "TRUE" ]]; then
   instanceType: "${YD_INSTANCE_TYPE:-}"
   sourceName: "${YD_SOURCE_NAME:-}"
   vcpus: "${YD_VCPUS:-$(nproc)}"
-  ram: "${YD_RAM:-$(safe_grep MemTotal /proc/meminfo | \
-           awk -v OFMT='%.2f' '{mem_gb = $2 / (1024*1024) ; print mem_gb}')}"
+  ram: "${YD_RAM:-$(awk '/MemTotal/ {printf("%.1f", \
+                    int(0.5 + ($2*2 / 1024^2)) / 2)}' /proc/meminfo)}"
   workerTag: "${YD_WORKER_TAG:-}"
   privateIpAddress: "${YD_PRIVATE_IP:-}"
   publicIpAddress: "${YD_PUBLIC_IP:-}"
