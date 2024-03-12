@@ -127,7 +127,7 @@ if [[ $YD_CONFIGURED_WP == "TRUE" ]]; then
     yd_log "Error: YD_TOKEN must be set"
     exit 1
   fi
-  YD_INSTANCE_ID="${YD_INSTANCE_ID:-$(cat /etc/hostname)}"
+  YD_INSTANCE_ID="${YD_INSTANCE_ID:-$(hostname)}"
   if [[ $YD_INSTANCE_ID == "" ]]; then
     YD_INSTANCE_ID="ID-$RANDOM-$RANDOM-$RANDOM"
   fi
@@ -135,7 +135,7 @@ if [[ $YD_CONFIGURED_WP == "TRUE" ]]; then
   token: "$YD_TOKEN"
   instanceId: "$YD_INSTANCE_ID"
   provider: "ON_PREMISE"
-  hostname: "${YD_HOSTNAME:-$(cat /etc/hostname)}"
+  hostname: "${YD_HOSTNAME:-$(hostname)}"
   services-schema.default-url: "${YD_URL:-https://portal.yellowdog.co/api}"
   region: "${YD_REGION:-}"
   instanceType: "${YD_INSTANCE_TYPE:-}"
