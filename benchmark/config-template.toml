@@ -49,7 +49,7 @@
     targetInstanceCount = "{{num:instances}}"
     minNodes = 0
 
-    idleNodeShutdownTimeout = "{{num:timeout}}"
-    idlePoolShutdownTimeout = "{{num:timeout}}"
+    idleNodeTimeout = "{{num:timeout}}"
+    idlePoolTimeout = "{{num:timeout}}"
 
 ################################################################################

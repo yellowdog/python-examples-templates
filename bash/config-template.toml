@@ -26,8 +26,8 @@
     targetInstanceCount = "{{num:instances}}"
     maxNodes = "{{num:max_instances}}"
 
-    idleNodeShutdownTimeout = "{{num:timeout}}"
-    idlePoolShutdownTimeout = "{{num:timeout}}"
+    idleNodeTimeout = "{{num:timeout}}"
+    idlePoolTimeout = "{{num:timeout}}"
 
 [workRequirement]  #############################################################
 
