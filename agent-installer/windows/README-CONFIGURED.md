@@ -1,5 +1,7 @@
 # Setting up a Windows Configured Worker Pool Node
 
+**Deprecated**: This content has moved to https://github.com/yellowdog/resources/blob/main/agent-install/windows/README-CONFIGURED.md.
+
 This README provides instructions for installing and configuring the YellowDog Agent on Windows systems for use within Configured Worker Pools.
 
 There are four steps:

@@ -1,5 +1,7 @@
 # YellowDog Agent Installer Script
 
+**Deprecated**: This content has moved to https://github.com/yellowdog/resources/blob/main/agent-install/linux/README.md.
+
 ## Overview 
 
 The Bash script [yd-agent-installer.sh](yd-agent-installer.sh) can be used to install and configure the YellowDog Agent and its dependencies on Linux. Several different Linux variants are supported.

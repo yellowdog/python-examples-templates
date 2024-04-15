@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# **Deprecated**: This script has now moved to
+# https://github.com/yellowdog/resources/blob/main/agent-install/linux/yd-agent-installer.sh
+
 # YellowDog Agent installer script.
 
 # Set "YD_INSTALL_JAVA" to anything other than "TRUE" to disable

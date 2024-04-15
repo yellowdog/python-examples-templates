@@ -1,5 +1,7 @@
 # Creating a YellowDog-Ready Windows Custom Image
 
+**Deprecated**: This content has moved to https://github.com/yellowdog/resources/blob/main/agent-install/windows/README.md.
+
 This README provides instructions for installing and configuring the YellowDog Agent on Windows instances to be used with Provisioned Worker Pools.
 
 There are five steps:
