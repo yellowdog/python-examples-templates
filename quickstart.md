@@ -1,10 +1,10 @@
 # YellowDog Quickstart for Provisioned Worker Pools
 
-The basic Workflow for getting started with YellowDog is described at https://docs.yellowdog.co/#/the-platform/workflow.
+The basic Workflow for getting started with YellowDog is described in the main documentation at https://docs.yellowdog.co/#/the-platform/workflow, and you'll also find a comprehensive Getting Started Guide at: https://docs.yellowdog.co/#/getting-started.
  
 Summarised below are the minimal steps necessary to prepare for creating YellowDog Provisioned Worker Pools (collections of VM instances running the YellowDog Agent). The steps are performed using your account in the YellowDog Portal: https://portal.yellowdog.co/ (so a YellowDog Platform account is required), and you’ll need various pieces of cloud provider information including credentials and network details.
  
-Once you’ve completed the steps below, you’ll be ready to provision instances and run workloads via YellowDog.
+Once you’ve completed the steps below, you’ll be ready to provision instances and run workloads via YellowDog using the Python Examples commands.
  
 ## Step 1: Create a Keyring and add a Cloud Provider Credential
  
@@ -37,17 +37,17 @@ Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to 
 - **ALIBABA**: `eu-west-1`
 - **AWS**: `eu-west-1`, `eu-west-2`, `us-east-1`, `us-east-2`, `us-west-1`, `us-west-2`
 - **AZURE**: `northeurope`
-- **GCP**: all regions
+- **GCP**: All regions
 - **OCI**: `uk-london-1`
  
-## Step 3: Create a Compute Template
+## Step 3: Create a Requirement Template
  
 - Docs: https://docs.yellowdog.co/#/the-platform/creating-a-static-template
 - Portal: https://portal.yellowdog.co/#/templates
  
-Create a **Compute Template** using the Compute Templates tab.
+Create a **Requirement Template** using the Requirement Templates tab.
  
-Create a simple **Static Template** including the Source you created above. Specify the required Instance Type in the Source panel and choose the **‘yd/yellowdog/yd-agent-docker’** image family from the **Images Id** drop-down.
+Create a simple **Static Template** including the Source Template you created above. Specify the required Instance Type in the Source panel and choose the **‘yd/yellowdog/yd-agent-docker’** image family from the **Images Id** drop-down.
   
 ## Step 4: Test-Provision a Worker Pool
  
