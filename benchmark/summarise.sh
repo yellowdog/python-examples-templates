@@ -9,6 +9,7 @@ yd_print "Python version: $(python3 --version)"
 python3 -m venv py
 source py/bin/activate
 pip install -Uq matplotlib==3.7.1 \
+                numpy==1.26.4 \
                 pandas==2.0.1 \
                 fpdf2==2.7.3 \
                 tabulate==0.9.0 \
