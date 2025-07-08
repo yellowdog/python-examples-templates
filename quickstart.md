@@ -21,12 +21,12 @@ Note that Keyrings are not automatically shared with other users in your YellowD
 
 **AWS** credentials must have the **[required IAM policies](https://docs.yellowdog.co/#/knowledge-base/configuring-an-aws-account-for-use-with-yellowdog)**.
  
-## Step 2: Create a Source Template
+## Step 2: Create a Compute Source Template
  
 - Docs: https://docs.yellowdog.co/#/the-platform/specifying-sources-of-compute
 - Portal: https://portal.yellowdog.co/#/sources
  
-Create a **Source** using the Source Templates tab. You’ll need various bits of cloud provider information.
+Create a **Compute Source Template** using the Compute Source Templates tab. You’ll need various bits of cloud provider information.
 
 Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to be populated at the Compute Template level.
 
@@ -40,12 +40,12 @@ Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to 
 - **GCP**: All regions
 - **OCI**: `uk-london-1`
  
-## Step 3: Create a Requirement Template
+## Step 3: Create a Compute Requirement Template
  
 - Docs: https://docs.yellowdog.co/#/the-platform/creating-a-static-template
 - Portal: https://portal.yellowdog.co/#/templates
  
-Create a **Requirement Template** using the Requirement Templates tab.
+Create a **Compute Requirement Template** using the Compute Requirement Templates tab.
  
 Create a simple **Static Template** including the Source Template you created above. Specify the required Instance Type in the Source panel and choose the **‘yd/yellowdog/yd-agent-docker’** image family from the **Images Id** drop-down.
   
