@@ -34,7 +34,6 @@ Leave the Instance Type and Image ID as ‘Allow Any’. We’ll allow these to 
 
 **VM image availability**: If you plan to use any of the YellowDog-supplied public VM images (such as the ‘yd/yellowdog/yd-agent-docker’ images mentioned below), they are available in the following service provider regions:
 
-- **ALIBABA**: `eu-west-1`
 - **AWS**: `eu-west-1`, `eu-west-2`, `us-east-1`, `us-east-2`, `us-west-1`, `us-west-2`
 - **AZURE**: `northeurope`
 - **GCP**: All regions
